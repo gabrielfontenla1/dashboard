@@ -4,7 +4,6 @@ import type { RouteObject } from 'react-router-dom';
 
 import { Layout as ChatLayout } from '@/components/dashboard/chat/layout';
 import { Layout as DashboardLayout } from '@/components/dashboard/layout/layout';
-import { Layout as MailLayout } from '@/components/dashboard/mail/layout';
 import { Layout as SettingsLayout } from '@/components/dashboard/settings/layout';
 
 export const route: RouteObject = {
@@ -87,35 +86,6 @@ export const route: RouteObject = {
         const { Page } = await import('@/pages/dashboard/i18n');
         return { Component: Page };
       },
-    },
-    {
-      path: 'mail',
-      element: (
-        <MailLayout>
-          <Outlet />
-        </MailLayout>
-      ),
-      children: [
-        {
-          path: ':labelId',
-          children: [
-            {
-              index: true,
-              lazy: async () => {
-                const { Page } = await import('@/pages/dashboard/mail/threads');
-                return { Component: Page };
-              },
-            },
-            {
-              path: ':threadId',
-              lazy: async () => {
-                const { Page } = await import('@/pages/dashboard/mail/thread');
-                return { Component: Page };
-              },
-            },
-          ],
-        },
-      ],
     },
     {
       path: 'settings',
