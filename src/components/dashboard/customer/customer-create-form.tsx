@@ -7,7 +7,6 @@ import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
@@ -22,12 +21,9 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import { Camera as CameraIcon } from '@phosphor-icons/react/dist/ssr/Camera';
 import { Controller, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { z as zod } from 'zod';
 
-import { paths } from '@/paths';
 import { logger } from '@/lib/default-logger';
-import { RouterLink } from '@/components/core/link';
 import { Option } from '@/components/core/option';
 import { toast } from '@/components/core/toaster';
 
@@ -86,8 +82,6 @@ const defaultValues = {
 } satisfies Values;
 
 export function CustomerCreateForm(): React.JSX.Element {
-  const navigate = useNavigate();
-
   const {
     control,
     handleSubmit,
@@ -96,19 +90,15 @@ export function CustomerCreateForm(): React.JSX.Element {
     watch,
   } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
 
-  const onSubmit = React.useCallback(
-    async (_: Values): Promise<void> => {
-      try {
-        // Make API request
-        toast.success('Customer updated');
-        navigate(paths.dashboard.customers.details('1'));
-      } catch (err) {
-        logger.error(err);
-        toast.error('Something went wrong!');
-      }
-    },
-    [navigate]
-  );
+  const onSubmit = React.useCallback(async (_: Values): Promise<void> => {
+    try {
+      // Make API request
+      toast.success('Customer updated');
+    } catch (err) {
+      logger.error(err);
+      toast.error('Something went wrong!');
+    }
+  }, []);
 
   const avatarInputRef = React.useRef<HTMLInputElement>(null);
   const avatar = watch('avatar');
@@ -404,14 +394,6 @@ export function CustomerCreateForm(): React.JSX.Element {
             </Stack>
           </Stack>
         </CardContent>
-        <CardActions sx={{ justifyContent: 'flex-end' }}>
-          <Button color="secondary" component={RouterLink} href={paths.dashboard.customers.list}>
-            Cancel
-          </Button>
-          <Button type="submit" variant="contained">
-            Create customer
-          </Button>
-        </CardActions>
       </Card>
     </form>
   );
