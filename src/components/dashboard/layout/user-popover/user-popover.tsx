@@ -8,7 +8,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import MenuItem from '@mui/material/MenuItem';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
-import { CreditCard as CreditCardIcon } from '@phosphor-icons/react/dist/ssr/CreditCard';
 import { LockKey as LockKeyIcon } from '@phosphor-icons/react/dist/ssr/LockKey';
 import { User as UserIcon } from '@phosphor-icons/react/dist/ssr/User';
 
@@ -66,12 +65,6 @@ export function UserPopover({ anchorEl, onClose, open }: UserPopoverProps): Reac
             <LockKeyIcon />
           </ListItemIcon>
           Security
-        </MenuItem>
-        <MenuItem component={RouterLink} href={paths.dashboard.settings.billing} onClick={onClose}>
-          <ListItemIcon>
-            <CreditCardIcon />
-          </ListItemIcon>
-          Billing
         </MenuItem>
       </List>
       <Divider />

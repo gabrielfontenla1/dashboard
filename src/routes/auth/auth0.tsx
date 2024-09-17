@@ -8,7 +8,7 @@ import { StrategyGuard } from '@/components/auth/strategy-guard';
 export const route: RouteObject = {
   path: 'auth0',
   element: (
-    <StrategyGuard expected={AuthStrategy.AUTH0}>
+    <StrategyGuard expected={AuthStrategy.CUSTOM}>
       <Outlet />
     </StrategyGuard>
   ),
