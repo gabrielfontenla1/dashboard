@@ -17,17 +17,7 @@ export const routes: RouteObject[] = [
         <Outlet />
       </MarketingLayout>
     ),
-    children: [
-      { index: true, element: <HomePage /> },
-      {
-        path: 'pricing',
-        lazy: async () => {
-          const { Page } = await import('@/pages/marketing/pricing');
-          return { Component: Page };
-        },
-      },
-      componentsRoute,
-    ],
+    children: [{ index: true, element: <HomePage /> }, componentsRoute],
   },
   {
     path: 'errors',
@@ -54,27 +44,6 @@ export const routes: RouteObject[] = [
         },
       },
     ],
-  },
-  {
-    path: 'checkout',
-    lazy: async () => {
-      const { Page } = await import('@/pages/checkout');
-      return { Component: Page };
-    },
-  },
-  {
-    path: 'contact',
-    lazy: async () => {
-      const { Page } = await import('@/pages/contact');
-      return { Component: Page };
-    },
-  },
-  {
-    path: 'pdf/invoices/:invoiceId',
-    lazy: async () => {
-      const { Page } = await import('@/pages/pdf/invoice');
-      return { Component: Page };
-    },
   },
   authRoute,
   dashboardRoute,
