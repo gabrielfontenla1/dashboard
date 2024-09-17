@@ -33,6 +33,17 @@ export const layoutConfig = {
         },
         { key: 'prompt-pdf', title: 'Prompt PDF', href: paths.dashboard.fileStorage, icon: 'upload' },
         { key: 'calendar', title: 'Calendar', href: paths.dashboard.calendar, icon: 'calendar-check' },
+        {
+          key: 'customers',
+          title: 'Customers',
+          href: paths.dashboard.customers.list,
+          icon: 'users',
+          items: [
+            { key: 'customers', title: 'List customers', href: paths.dashboard.customers.list },
+            { key: 'customers:create', title: 'Create customer', href: paths.dashboard.customers.create },
+            { key: 'customers:details', title: 'Customer details', href: paths.dashboard.customers.details('1') },
+          ],
+        },
       ],
     },
     {

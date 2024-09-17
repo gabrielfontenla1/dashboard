@@ -35,9 +35,10 @@ export const paths = {
       thread: (threadType: string, threadId: string) => `/dashboard/chat/${threadType}/${threadId}`,
     },
     fileStorage: '/dashboard/file-storage',
-    mail: {
-      list: (label: string) => `/dashboard/mail/${label}`,
-      details: (label: string, emailId: string) => `/dashboard/mail/${label}/${emailId}`,
+    customers: {
+      list: '/dashboard/customers',
+      create: '/dashboard/customers/create',
+      details: (customerId: string) => `/dashboard/customers/${customerId}`,
     },
   },
   pdf: { invoice: (invoiceId: string) => `/pdf/invoices/${invoiceId}` },
