@@ -51,6 +51,7 @@ class AuthClient {
     return { error: 'Social authentication not implemented' };
   }
 
+  //TODO delete default login data and call backend service
   async signInWithPassword(params: SignInWithPasswordParams): Promise<{ error?: string }> {
     const { email, password } = params;
 
