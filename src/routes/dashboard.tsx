@@ -74,6 +74,32 @@ export const route: RouteObject = {
       ],
     },
     {
+      path: 'customers',
+      children: [
+        {
+          index: true,
+          lazy: async () => {
+            const { Page } = await import('@/pages/dashboard/customers/list');
+            return { Component: Page };
+          },
+        },
+        {
+          path: 'create',
+          lazy: async () => {
+            const { Page } = await import('@/pages/dashboard/customers/create');
+            return { Component: Page };
+          },
+        },
+        {
+          path: ':customerId',
+          lazy: async () => {
+            const { Page } = await import('@/pages/dashboard/customers/details');
+            return { Component: Page };
+          },
+        },
+      ],
+    },
+    {
       path: 'file-storage',
       lazy: async () => {
         const { Page } = await import('@/pages/dashboard/file-storage');

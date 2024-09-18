@@ -12,9 +12,7 @@ import Stack from '@mui/material/Stack';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
-import { useNavigate } from 'react-router-dom';
 
-import { paths } from '@/paths';
 import { FilterButton, FilterPopover, useFilterContext } from '@/components/core/filter-button';
 import { Option } from '@/components/core/option';
 
@@ -44,34 +42,27 @@ export interface CustomersFiltersProps {
 export function CustomersFilters({ filters = {}, sortDir = 'desc' }: CustomersFiltersProps): React.JSX.Element {
   const { email, phone, status } = filters;
 
-  const navigate = useNavigate();
-
   const selection = useCustomersSelection();
 
-  const updateSearchParams = React.useCallback(
-    (newFilters: Filters, newSortDir: SortDir): void => {
-      const searchParams = new URLSearchParams();
+  const updateSearchParams = React.useCallback((newFilters: Filters, newSortDir: SortDir): void => {
+    const searchParams = new URLSearchParams();
 
-      if (newSortDir === 'asc') {
-        searchParams.set('sortDir', newSortDir);
-      }
+    if (newSortDir === 'asc') {
+      searchParams.set('sortDir', newSortDir);
+    }
 
-      if (newFilters.status) {
-        searchParams.set('status', newFilters.status);
-      }
+    if (newFilters.status) {
+      searchParams.set('status', newFilters.status);
+    }
 
-      if (newFilters.email) {
-        searchParams.set('email', newFilters.email);
-      }
+    if (newFilters.email) {
+      searchParams.set('email', newFilters.email);
+    }
 
-      if (newFilters.phone) {
-        searchParams.set('phone', newFilters.phone);
-      }
-
-      navigate(`${paths.dashboard.customers.list}?${searchParams.toString()}`);
-    },
-    [navigate]
-  );
+    if (newFilters.phone) {
+      searchParams.set('phone', newFilters.phone);
+    }
+  }, []);
 
   const handleClearFilters = React.useCallback(() => {
     updateSearchParams({}, sortDir);

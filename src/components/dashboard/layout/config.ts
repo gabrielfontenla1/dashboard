@@ -13,8 +13,8 @@ export interface LayoutConfig {
 export const layoutConfig = {
   navItems: [
     {
-      key: 'dashboards',
-      title: 'Dashboards',
+      key: 'metrics',
+      title: 'Metrics',
       items: [
         { key: 'overview', title: 'Overview', href: paths.dashboard.overview, icon: 'house' },
         { key: 'analytics', title: 'Analytics', href: paths.dashboard.analytics, icon: 'chart-pie' },
@@ -25,15 +25,18 @@ export const layoutConfig = {
       title: 'General',
       items: [
         {
-          key: 'settings',
-          title: 'Settings',
-          href: paths.dashboard.settings.account,
-          icon: 'gear',
-          matcher: { type: 'startsWith', href: '/dashboard/settings' },
+          key: 'chat',
+          title: 'Chat',
+          href: paths.dashboard.chat.base,
+          icon: 'chats-circle',
+          matcher: { type: 'startsWith', href: '/dashboard/chat' },
         },
+        { key: 'prompt-pdf', title: 'Prompt PDF', href: paths.dashboard.fileStorage, icon: 'upload' },
+        { key: 'calendar', title: 'Calendar', href: paths.dashboard.calendar, icon: 'calendar-check' },
         {
           key: 'customers',
           title: 'Customers',
+          href: paths.dashboard.customers.list,
           icon: 'users',
           items: [
             { key: 'customers', title: 'List customers', href: paths.dashboard.customers.list },
@@ -41,23 +44,19 @@ export const layoutConfig = {
             { key: 'customers:details', title: 'Customer details', href: paths.dashboard.customers.details('1') },
           ],
         },
-
-        { key: 'file-storage', title: 'File storage', href: paths.dashboard.fileStorage, icon: 'upload' },
+      ],
+    },
+    {
+      key: 'settings',
+      title: 'Settings',
+      items: [
         {
-          key: 'mail',
-          title: 'Mail',
-          href: paths.dashboard.mail.list('inbox'),
-          icon: 'envelope-simple',
-          matcher: { type: 'startsWith', href: '/dashboard/mail' },
+          key: 'settings',
+          title: 'Settings',
+          href: paths.dashboard.settings.account,
+          icon: 'gear',
+          matcher: { type: 'startsWith', href: '/dashboard/settings' },
         },
-        {
-          key: 'chat',
-          title: 'Chat',
-          href: paths.dashboard.chat.base,
-          icon: 'chats-circle',
-          matcher: { type: 'startsWith', href: '/dashboard/chat' },
-        },
-        { key: 'calendar', title: 'Calendar', href: paths.dashboard.calendar, icon: 'calendar-check' },
       ],
     },
   ],
