@@ -12,7 +12,6 @@ import { Clock as ClockIcon } from '@phosphor-icons/react/dist/ssr/Clock';
 import { Eye as EyeIcon } from '@phosphor-icons/react/dist/ssr/Eye';
 import { Image as ImageIcon } from '@phosphor-icons/react/dist/ssr/Image';
 
-import { paths } from '@/paths';
 import type { ColumnDef } from '@/components/core/data-table';
 import { DataTable } from '@/components/core/data-table';
 import { RouterLink } from '@/components/core/link';
@@ -67,13 +66,7 @@ const columns = [
           </Box>
         )}
         <div>
-          <Link
-            color="text.primary"
-            component={RouterLink}
-            href={paths.dashboard.products.preview('1')}
-            sx={{ whiteSpace: 'nowrap' }}
-            variant="subtitle2"
-          >
+          <Link color="text.primary" component={RouterLink} href="" sx={{ whiteSpace: 'nowrap' }} variant="subtitle2">
             {row.name}
           </Link>
           <Typography color="text.secondary" variant="body2">
@@ -112,7 +105,7 @@ const columns = [
   },
   {
     formatter: (): React.JSX.Element => (
-      <IconButton component={RouterLink} href={paths.dashboard.products.preview('1')}>
+      <IconButton component={RouterLink} href="">
         <EyeIcon />
       </IconButton>
     ),

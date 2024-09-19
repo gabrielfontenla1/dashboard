@@ -5,7 +5,6 @@ import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
 
 import type { User } from '@/types/user';
 import { config } from '@/config';
-import { paths } from '@/paths';
 
 import type { UserContextValue } from '../types';
 
@@ -30,7 +29,7 @@ function UserProviderImpl({ children }: UserProviderProps): React.JSX.Element {
 export function UserProvider({ children }: UserProviderProps): React.JSX.Element {
   return (
     <Auth0Provider
-      authorizationParams={{ redirect_uri: `${window.location.origin}${paths.auth.auth0.callback}` }}
+      authorizationParams={{ redirect_uri: window.location.origin }}
       cacheLocation="localstorage"
       clientId={config.auth0.clientId!}
       domain={config.auth0.domain!}

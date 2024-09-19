@@ -10,7 +10,6 @@ import { useSearchParams } from 'react-router-dom';
 import type { Metadata } from '@/types/metadata';
 import { config } from '@/config';
 import { paths } from '@/paths';
-import { ResetPasswordButton } from '@/components/auth/firebase/reset-password-button';
 import { GuestGuard } from '@/components/auth/guest-guard';
 import { SplitLayout } from '@/components/auth/split-layout';
 import { RouterLink } from '@/components/core/link';
@@ -52,12 +51,11 @@ export function Page(): React.JSX.Element {
                 , you will receive a recovery email.
               </Typography>
               <div>
-                <Link component={RouterLink} href={paths.auth.firebase.resetPassword} variant="subtitle2">
+                <Link component={RouterLink} href="" variant="subtitle2">
                   Use another email
                 </Link>
               </div>
             </Stack>
-            <ResetPasswordButton email={email}>Resend</ResetPasswordButton>
           </Stack>
         </SplitLayout>
       </GuestGuard>

@@ -27,7 +27,6 @@ import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { z as zod } from 'zod';
 
-import { paths } from '@/paths';
 import { dayjs } from '@/lib/dayjs';
 import { logger } from '@/lib/default-logger';
 import type { ColumnDef } from '@/components/core/data-table';
@@ -187,7 +186,7 @@ export function OrderCreateForm(): React.JSX.Element {
       try {
         // Make API request
         toast.success('Order created');
-        navigate(paths.dashboard.orders.list);
+        navigate('');
       } catch (err) {
         logger.error(err);
         toast.error('Something went wrong!');

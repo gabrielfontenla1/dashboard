@@ -13,7 +13,6 @@ import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
 import { X as XIcon } from '@phosphor-icons/react/dist/ssr/X';
 import { useNavigate } from 'react-router-dom';
 
-import { paths } from '@/paths';
 import { useMediaQuery } from '@/hooks/use-media-query';
 
 import { LabelItem } from './label-item';
@@ -118,9 +117,7 @@ function SidebarContent({
         onClose?.();
       }
 
-      const href = paths.dashboard.mail.list(labelId);
-
-      navigate(href);
+      navigate(labelId);
     },
     [navigate, closeOnSelect, onClose]
   );

@@ -37,22 +37,6 @@ export function AuthGuard({ children }: AuthGuardProps): React.JSX.Element | nul
           navigate(paths.auth.custom.signIn, { replace: true });
           return;
         }
-        case AuthStrategy.AUTH0: {
-          navigate(paths.auth.auth0.signIn, { replace: true });
-          return;
-        }
-        case AuthStrategy.COGNITO: {
-          navigate(paths.auth.cognito.signIn, { replace: true });
-          return;
-        }
-        case AuthStrategy.FIREBASE: {
-          navigate(paths.auth.firebase.signIn, { replace: true });
-          return;
-        }
-        case AuthStrategy.SUPABASE: {
-          navigate(paths.auth.supabase.signIn, { replace: true });
-          return;
-        }
         default: {
           logger.error('[AuthGuard]: Unknown auth strategy');
           return;

@@ -7,8 +7,6 @@ import { List as ListIcon } from '@phosphor-icons/react/dist/ssr/List';
 import { Rows as RowsIcon } from '@phosphor-icons/react/dist/ssr/Rows';
 import { useNavigate } from 'react-router-dom';
 
-import { paths } from '@/paths';
-
 type ViewMode = 'group' | 'list';
 
 export interface ViewModeButtonProps {
@@ -24,7 +22,7 @@ export function ViewModeButton({ view }: ViewModeButtonProps): React.JSX.Element
       // For the sake of simplicity, we did not keep the search params on mode change.
 
       if (value) {
-        navigate(`${paths.dashboard.invoices.list}?view=${value}`);
+        navigate(`?view=${value}`);
       }
     },
     [navigate]

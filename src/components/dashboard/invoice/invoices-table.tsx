@@ -13,7 +13,6 @@ import { CheckCircle as CheckCircleIcon } from '@phosphor-icons/react/dist/ssr/C
 import { Clock as ClockIcon } from '@phosphor-icons/react/dist/ssr/Clock';
 import { XCircle as XCircleIcon } from '@phosphor-icons/react/dist/ssr/XCircle';
 
-import { paths } from '@/paths';
 import { dayjs } from '@/lib/dayjs';
 import type { ColumnDef } from '@/components/core/data-table';
 import { DataTable } from '@/components/core/data-table';
@@ -54,7 +53,7 @@ const columns = [
       <Stack
         component={RouterLink}
         direction="row"
-        href={paths.dashboard.invoices.details('1')}
+        href=""
         spacing={2}
         sx={{ alignItems: 'center', display: 'inline-flex', textDecoration: 'none', whiteSpace: 'nowrap' }}
       >
@@ -121,7 +120,7 @@ const columns = [
   },
   {
     formatter: (): React.JSX.Element => (
-      <IconButton component={RouterLink} href={paths.dashboard.invoices.details('1')}>
+      <IconButton component={RouterLink} href="">
         <ArrowRightIcon />
       </IconButton>
     ),

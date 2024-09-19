@@ -11,7 +11,6 @@ import { config } from '@/config';
 import { paths } from '@/paths';
 import { GuestGuard } from '@/components/auth/guest-guard';
 import { SplitLayout } from '@/components/auth/split-layout';
-import { SignUpResendButton } from '@/components/auth/supabase/sign-up-resend-button';
 import { RouterLink } from '@/components/core/link';
 import { DynamicLogo } from '@/components/core/logo';
 
@@ -49,7 +48,6 @@ export function Page(): React.JSX.Element {
               </Typography>
               .
             </Typography>
-            <SignUpResendButton email={email}>Resend</SignUpResendButton>
           </Stack>
         </SplitLayout>
       </GuestGuard>

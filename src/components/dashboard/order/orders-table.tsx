@@ -14,7 +14,6 @@ import { Eye as EyeIcon } from '@phosphor-icons/react/dist/ssr/Eye';
 import { Minus as MinusIcon } from '@phosphor-icons/react/dist/ssr/Minus';
 import { XCircle as XCircleIcon } from '@phosphor-icons/react/dist/ssr/XCircle';
 
-import { paths } from '@/paths';
 import { dayjs } from '@/lib/dayjs';
 import { DataTable } from '@/components/core/data-table';
 import type { ColumnDef } from '@/components/core/data-table';
@@ -50,13 +49,7 @@ const columns = [
           <Typography variant="h6">{dayjs(row.createdAt).format('D')}</Typography>
         </Box>
         <div>
-          <Link
-            color="text.primary"
-            component={RouterLink}
-            href={paths.dashboard.orders.preview('1')}
-            sx={{ cursor: 'pointer' }}
-            variant="subtitle2"
-          >
+          <Link color="text.primary" component={RouterLink} href="" sx={{ cursor: 'pointer' }} variant="subtitle2">
             {row.id}
           </Link>
           <Typography color="text.secondary" variant="body2">
@@ -138,7 +131,7 @@ const columns = [
   },
   {
     formatter: (): React.JSX.Element => (
-      <IconButton component={RouterLink} href={paths.dashboard.orders.preview('1')}>
+      <IconButton component={RouterLink} href="">
         <EyeIcon />
       </IconButton>
     ),

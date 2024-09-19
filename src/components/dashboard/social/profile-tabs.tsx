@@ -4,7 +4,6 @@ import * as React from 'react';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 
-import { paths } from '@/paths';
 import { usePathname } from '@/hooks/use-pathname';
 import { RouterLink } from '@/components/core/link';
 
@@ -19,20 +18,8 @@ export function ProfileTabs(): React.JSX.Element {
 
   return (
     <Tabs sx={{ borderBottom: '1px solid var(--mui-palette-divider)' }} value={segment}>
-      <Tab
-        component={RouterLink}
-        href={paths.dashboard.social.profile.timeline}
-        label="Timeline"
-        tabIndex={0}
-        value="timeline"
-      />
-      <Tab
-        component={RouterLink}
-        href={paths.dashboard.social.profile.connections}
-        label="Connections"
-        tabIndex={0}
-        value="connections"
-      />
+      <Tab component={RouterLink} href="" label="Timeline" tabIndex={0} value="timeline" />
+      <Tab component={RouterLink} href="" label="Connections" tabIndex={0} value="connections" />
     </Tabs>
   );
 }
