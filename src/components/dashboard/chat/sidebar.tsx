@@ -2,17 +2,13 @@
 
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
 import { X as XIcon } from '@phosphor-icons/react/dist/ssr/X';
 
-import { paths } from '@/paths';
 import { useMediaQuery } from '@/hooks/use-media-query';
-import { RouterLink } from '@/components/core/link';
 
 import { DirectSearch } from './direct-search';
 import { ThreadItem } from './thread-item';
@@ -94,7 +90,6 @@ interface SidebarContentProps {
 }
 
 function SidebarContent({
-  closeOnGroupClick,
   closeOnThreadSelect,
   contacts,
   currentThreadId,
@@ -168,19 +163,6 @@ function SidebarContent({
         <Typography sx={{ flex: '1 1 auto' }} variant="h5">
           Chats
         </Typography>
-        <Button
-          component={RouterLink}
-          href={paths.dashboard.chat.compose}
-          onClick={() => {
-            if (closeOnGroupClick) {
-              onClose?.();
-            }
-          }}
-          startIcon={<PlusIcon />}
-          variant="contained"
-        >
-          Group
-        </Button>
         <IconButton onClick={onClose} sx={{ display: { md: 'none' } }}>
           <XIcon />
         </IconButton>

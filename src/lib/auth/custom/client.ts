@@ -57,8 +57,15 @@ class AuthClient {
 
     // Make API request
 
-    // We do not handle the API, so we'll check if the credentials match with the hardcoded ones.
-    if (email !== 'sofia@devias.io' || password !== 'Secret1') {
+    // TO-DO: Then remove mocked users
+    const mockedUsers = [
+      { email: 'admin@admin.com', password: 'onesearch' },
+      { email: 'user@user.com', password: 'onesearch' },
+      { email: 'admin@hilton.com', password: 'onesearch' },
+      { email: 'user@hilton.com', password: 'onesearch' },
+    ];
+    const foundUser = mockedUsers.find((u) => u.email === email && u.password === password);
+    if (!foundUser) {
       return { error: 'Invalid credentials' };
     }
 
