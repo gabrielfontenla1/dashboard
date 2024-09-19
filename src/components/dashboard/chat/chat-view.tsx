@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import { List as ListIcon } from '@phosphor-icons/react/dist/ssr/List';
 import { useNavigate } from 'react-router-dom';
@@ -33,7 +34,6 @@ export function ChatView({ children }: ChatViewProps): React.JSX.Element {
 
   const pathname = usePathname();
 
-  // The layout does not have a direct access to the current thread id param, we need to extract it from the pathname.
   const segments = pathname.split('/').filter(Boolean);
   const currentThreadId = segments.length === 4 ? segments[segments.length - 1] : undefined;
 
@@ -83,6 +83,17 @@ export function ChatView({ children }: ChatViewProps): React.JSX.Element {
           >
             <ListIcon />
           </IconButton>
+
+          <Button
+            variant="contained"
+            color="error"
+            sx={{ marginLeft: 'auto' }}
+            onClick={() => {
+              // Add your pause IA logic here
+            }}
+          >
+            PAUSE
+          </Button>
         </Box>
         {children}
       </Box>

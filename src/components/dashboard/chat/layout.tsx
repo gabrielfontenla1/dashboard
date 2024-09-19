@@ -69,32 +69,22 @@ const contacts = [
 
 const threads = [
   {
-    id: 'TRD-004',
+    id: 'TRD-003',
     type: 'direct',
     participants: [
       { id: 'USR-000', name: 'Sofia Rivers', avatar: '/assets/avatar.png' },
       { id: 'USR-003', name: 'Carson Darrin', avatar: '/assets/avatar-3.png' },
     ],
-    unreadCount: 0,
+    unreadCount: 1,
   },
   {
-    id: 'TRD-003',
+    id: 'TRD-002',
     type: 'direct',
     participants: [
       { id: 'USR-000', name: 'Sofia Rivers', avatar: '/assets/avatar.png' },
       { id: 'USR-005', name: 'Fran Perez', avatar: '/assets/avatar-5.png' },
     ],
-    unreadCount: 1,
-  },
-  {
-    id: 'TRD-002',
-    type: 'group',
-    participants: [
-      { id: 'USR-000', name: 'Sofia Rivers', avatar: '/assets/avatar.png' },
-      { id: 'USR-007', name: 'Nasimiyu Danai', avatar: '/assets/avatar-7.png' },
-      { id: 'USR-001', name: 'Miron Vitold', avatar: '/assets/avatar-1.png' },
-    ],
-    unreadCount: 0,
+    unreadCount: 2,
   },
   {
     id: 'TRD-001',
@@ -103,51 +93,147 @@ const threads = [
       { id: 'USR-000', name: 'Sofia Rivers', avatar: '/assets/avatar.png' },
       { id: 'USR-010', name: 'Alcides Antonio', avatar: '/assets/avatar-10.png' },
     ],
-    unreadCount: 2,
+    unreadCount: 0,
   },
 ] satisfies Thread[];
 
 const messages = [
-  {
-    id: 'MSG-011',
-    threadId: 'TRD-004',
-    type: 'text',
-    content: 'Hi, how are you?',
-    author: { id: 'USR-000', name: 'Sofia Rivers', avatar: '/assets/avatar.png' },
-    createdAt: dayjs().subtract(10, 'minute').toDate(),
-  },
-  {
-    id: 'MSG-010',
-    threadId: 'TRD-003',
-    type: 'text',
-    content: 'Are you available for a call?',
-    author: { id: 'USR-005', name: 'Fran Perez', avatar: '/assets/avatar-5.png' },
-    createdAt: dayjs().subtract(5, 'minute').subtract(1, 'hour').toDate(),
-  },
-  {
-    id: 'MSG-009',
-    threadId: 'TRD-002',
-    type: 'text',
-    content: 'Hello everyone 😀',
-    author: { id: 'USR-001', name: 'Miron Vitold', avatar: '/assets/avatar-1.png' },
-    createdAt: dayjs().subtract(56, 'minute').subtract(2, 'hour').toDate(),
-  },
+  // =======================================
+  // Thread 3
+  // =======================================
+
   {
     id: 'MSG-008',
-    threadId: 'TRD-002',
+    threadId: 'TRD-003',
     type: 'text',
-    content: 'Hi!',
+    content: 'Claro, te envío la información en un momento. ¡Gracias por elegirnos!.',
     author: { id: 'USR-000', name: 'Sofia Rivers', avatar: '/assets/avatar.png' },
-    createdAt: dayjs().subtract(51, 'minute').subtract(3, 'hour').toDate(),
+    createdAt: dayjs().subtract(3, 'hour').subtract(3, 'day').toDate(),
   },
+  {
+    id: 'MSG-007',
+    threadId: 'TRD-003',
+    type: 'text',
+    content: 'Perfecto, por favor envíame los detalles de la transferencia.',
+    author: { id: 'USR-010', name: 'Alcides Antonio', avatar: '/assets/avatar-10.png' },
+    createdAt: dayjs().subtract(2, 'hour').subtract(2, 'day').toDate(),
+  },
+  {
+    id: 'MSG-006',
+    threadId: 'TRD-003',
+    type: 'text',
+    content:
+      'Puedes realizar el pago por transferencia bancaria o tarjeta de crédito. Te puedo enviar los detalles por mensaje.',
+    author: { id: 'USR-000', name: 'Sofia Rivers', avatar: '/assets/avatar.png' },
+    createdAt: dayjs().subtract(3, 'hour').subtract(3, 'day').toDate(),
+  },
+  {
+    id: 'MSG-005',
+    threadId: 'TRD-003',
+    type: 'text',
+    content: 'Sí, por favor. Puedo hacer el pago ahora mismo. ¿Cómo lo realizo?',
+    author: { id: 'USR-010', name: 'Alcides Antonio', avatar: '/assets/avatar-10.png' },
+    createdAt: dayjs().subtract(2, 'hour').subtract(2, 'day').toDate(),
+  },
+  {
+    id: 'MSG-004',
+    threadId: 'TRD-003',
+    type: 'text',
+    content: 'El costo sería de $120 por noche, así que en total serían $240. ¿Te gustaría proceder con la reserva?',
+    author: { id: 'USR-000', name: 'Sofia Rivers', avatar: '/assets/avatar.png' },
+    createdAt: dayjs().subtract(3, 'hour').subtract(3, 'day').toDate(),
+  },
+  {
+    id: 'MSG-003',
+    threadId: 'TRD-003',
+    type: 'text',
+    content: 'Quiero quedarme dos noches, del 15 al 17 de octubre. ¿Cuánto costaría?',
+    author: { id: 'USR-010', name: 'Alcides Antonio', avatar: '/assets/avatar-10.png' },
+    createdAt: dayjs().subtract(5, 'hour').subtract(3, 'day').toDate(),
+  },
+  {
+    id: 'MSG-002',
+    threadId: 'TRD-003',
+    type: 'text',
+    content: 'Hola! Sí, tenemos habitaciones disponibles para ese fin de semana. ¿Cuántas noches te gustaría quedarte?',
+    author: { id: 'USR-000', name: 'Sofia Rivers', avatar: '/assets/avatar.png' },
+    createdAt: dayjs().subtract(2, 'hour').subtract(4, 'day').toDate(),
+  },
+  {
+    id: 'MSG-001',
+    threadId: 'TRD-003',
+    type: 'text',
+    content:
+      'Hola, estoy interesado en reservar una habitación para el fin de semana del 15 de octubre. ¿Tienes disponibilidad?',
+    author: { id: 'USR-010', name: 'Alcides Antonio', avatar: '/assets/avatar-10.png' },
+    createdAt: dayjs().subtract(5, 'hour').subtract(4, 'day').toDate(),
+  },
+
+  // =======================================
+  // Thread 2
+  // =======================================
   {
     id: 'MSG-007',
     threadId: 'TRD-002',
     type: 'text',
-    content: 'Hey, would you like to collaborate?',
-    author: { id: 'USR-007', name: 'Nasimiyu Danai', avatar: '/assets/avatar-7.png' },
-    createdAt: dayjs().subtract(46, 'minute').subtract(5, 'hour').toDate(),
+    content: 'Perfecto, lo tendré en cuenta. ¡Nos vemos pronto!',
+    author: { id: 'USR-000', name: 'Sofia Rivers', avatar: '/assets/avatar.png' },
+    createdAt: dayjs().subtract(3, 'hour').subtract(3, 'day').toDate(),
   },
+  {
+    id: 'MSG-006',
+    threadId: 'TRD-002',
+    type: 'text',
+    content: 'Genial, llegaremos alrededor del mediodía. ¡Gracias por la info!',
+    author: { id: 'USR-010', name: 'Alcides Antonio', avatar: '/assets/avatar-10.png' },
+    createdAt: dayjs().subtract(2, 'hour').subtract(2, 'day').toDate(),
+  },
+  {
+    id: 'MSG-005',
+    threadId: 'TRD-002',
+    type: 'text',
+    content: 'El check-in es a partir de las 3:00 PM. Si llegas antes, puedes dejar tus maletas en recepción.',
+    author: { id: 'USR-000', name: 'Sofia Rivers', avatar: '/assets/avatar.png' },
+    createdAt: dayjs().subtract(3, 'hour').subtract(3, 'day').toDate(),
+  },
+  {
+    id: 'MSG-004',
+    threadId: 'TRD-002',
+    type: 'text',
+    content: 'Sí, todo perfecto. Gracias por la confirmación. ¿El check-in es a partir de qué hora?',
+    author: { id: 'USR-010', name: 'Alcides Antonio', avatar: '/assets/avatar-10.png' },
+    createdAt: dayjs().subtract(5, 'hour').subtract(3, 'day').toDate(),
+  },
+  {
+    id: 'MSG-003',
+    threadId: 'TRD-002',
+    type: 'text',
+    content:
+      'Sí, el pago ha sido recibido correctamente. Tu reserva para el 12 de octubre está confirmada. ¿Todo bien con las fechas?',
+    author: { id: 'USR-000', name: 'Sofia Rivers', avatar: '/assets/avatar.png' },
+    createdAt: dayjs().subtract(2, 'hour').subtract(4, 'day').toDate(),
+  },
+  {
+    id: 'MSG-002',
+    threadId: 'TRD-002',
+    type: 'text',
+    content: '¡Hola! Déjame revisar. Un momento, por favor.',
+    author: { id: 'USR-000', name: 'Sofia Rivers', avatar: '/assets/avatar.png' },
+    createdAt: dayjs().subtract(2, 'hour').subtract(4, 'day').toDate(),
+  },
+  {
+    id: 'MSG-001',
+    threadId: 'TRD-002',
+    type: 'text',
+    content: 'Hola, quería confirmar si mi reserva para el 12 de octubre está todo en orden. ¿Te llegó el pago?',
+    author: { id: 'USR-010', name: 'Alcides Antonio', avatar: '/assets/avatar-10.png' },
+    createdAt: dayjs().subtract(5, 'hour').subtract(4, 'day').toDate(),
+  },
+
+  // =======================================
+  // Thread 1
+  // =======================================
+
   {
     id: 'MSG-006',
     threadId: 'TRD-001',
@@ -160,7 +246,8 @@ const messages = [
     id: 'MSG-005',
     threadId: 'TRD-001',
     type: 'text',
-    content: 'Ok, I will think about it. Thanks!',
+    content:
+      'Muchas gracias por tu ayuda, nos vemos. Por cierto, te paso unas fotos de mi última estancia en el hotel, la verdad la pasamos increíble. ¡Saludos!',
     author: { id: 'USR-010', name: 'Alcides Antonio', avatar: '/assets/avatar-10.png' },
     createdAt: dayjs().subtract(2, 'hour').subtract(2, 'day').toDate(),
   },
@@ -168,7 +255,8 @@ const messages = [
     id: 'MSG-004',
     threadId: 'TRD-001',
     type: 'text',
-    content: "I'm sorry, I can't go lower than $45.",
+    content:
+      '¡Qué bueno escuchar eso! He revisado su comprobante y todo está en orden. Su reserva para el fin de semana está confirmada, será un placer tenerlos con nosotros.',
     author: { id: 'USR-000', name: 'Sofia Rivers', avatar: '/assets/avatar.png' },
     createdAt: dayjs().subtract(3, 'hour').subtract(3, 'day').toDate(),
   },
@@ -176,7 +264,8 @@ const messages = [
     id: 'MSG-003',
     threadId: 'TRD-001',
     type: 'text',
-    content: "Can't you make it $40? I'm on a tight budget.",
+    content:
+      'Perfecto, muchas gracias. Es la primera vez que nos quedamos en su hotel, así que estamos emocionados por la estancia.',
     author: { id: 'USR-010', name: 'Alcides Antonio', avatar: '/assets/avatar-10.png' },
     createdAt: dayjs().subtract(5, 'hour').subtract(3, 'day').toDate(),
   },
@@ -184,7 +273,8 @@ const messages = [
     id: 'MSG-002',
     threadId: 'TRD-001',
     type: 'text',
-    content: 'Sure, it is $50 per hour.',
+    content:
+      '¡Buenos días! Gracias por contactarnos. Permítame revisar el comprobante que me ha enviado. En un momento le confirmo la reserva.',
     author: { id: 'USR-000', name: 'Sofia Rivers', avatar: '/assets/avatar.png' },
     createdAt: dayjs().subtract(2, 'hour').subtract(4, 'day').toDate(),
   },
@@ -192,7 +282,8 @@ const messages = [
     id: 'MSG-001',
     threadId: 'TRD-001',
     type: 'text',
-    content: "I'm interested in your services, can you tell me more about your hourly rate?",
+    content:
+      'Hola, buenos días. Me gustaría confirmar la reserva que hice para el próximo fin de semana. Adjunto el comprobante de pago para asegurarme de que todo esté en orden.',
     author: { id: 'USR-010', name: 'Alcides Antonio', avatar: '/assets/avatar-10.png' },
     createdAt: dayjs().subtract(5, 'hour').subtract(4, 'day').toDate(),
   },

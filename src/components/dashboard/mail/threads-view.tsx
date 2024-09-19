@@ -117,7 +117,6 @@ export function ThreadsView(): React.JSX.Element {
           <Box sx={{ overflowY: 'auto' }}>
             {threads.map((thread) => (
               <ThreadItem
-                href={paths.dashboard.mail.details(currentLabelId, thread.id)}
                 key={thread.id}
                 onDeselect={() => {
                   deselectOne(thread.id);
