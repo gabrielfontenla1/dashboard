@@ -13,7 +13,6 @@ import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import { useNavigate } from 'react-router-dom';
 
-import { paths } from '@/paths';
 import { FilterButton, FilterPopover, useFilterContext } from '@/components/core/filter-button';
 import { Option } from '@/components/core/option';
 
@@ -62,7 +61,7 @@ export function ProductsFilters({ filters = {}, sortDir = 'desc' }: ProductsFilt
         searchParams.set('category', newFilters.category);
       }
 
-      navigate(`${paths.dashboard.products.list}?${searchParams.toString()}`);
+      navigate(`?${searchParams.toString()}`);
     },
     [navigate]
   );

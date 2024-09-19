@@ -13,7 +13,6 @@ import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { z as zod } from 'zod';
 
-import { paths } from '@/paths';
 import { dayjs } from '@/lib/dayjs';
 import { Option } from '@/components/core/option';
 
@@ -115,7 +114,7 @@ export function InvoicesFilters({
         searchParams.set('endDate', newFilters.endDate);
       }
 
-      navigate(`${paths.dashboard.invoices.list}?${searchParams.toString()}`);
+      navigate(`?${searchParams.toString()}`);
     },
     [navigate, sortDir, view]
   );

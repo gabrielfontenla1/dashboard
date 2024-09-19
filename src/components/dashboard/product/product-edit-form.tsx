@@ -26,10 +26,8 @@ import { Info as InfoIcon } from '@phosphor-icons/react/dist/ssr/Info';
 import { Trash as TrashIcon } from '@phosphor-icons/react/dist/ssr/Trash';
 import type { EditorEvents } from '@tiptap/react';
 import { Controller, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { z as zod } from 'zod';
 
-import { paths } from '@/paths';
 import { logger } from '@/lib/default-logger';
 import type { ColumnDef } from '@/components/core/data-table';
 import { DataTable } from '@/components/core/data-table';
@@ -171,8 +169,6 @@ export interface ProductEditFormProps {
 }
 
 export function ProductEditForm({ product }: ProductEditFormProps): React.JSX.Element {
-  const navigate = useNavigate();
-
   const {
     control,
     handleSubmit,
@@ -182,19 +178,15 @@ export function ProductEditForm({ product }: ProductEditFormProps): React.JSX.El
     watch,
   } = useForm<Values>({ defaultValues: getDefaultValues(product), resolver: zodResolver(schema) });
 
-  const onSubmit = React.useCallback(
-    async (_: Values): Promise<void> => {
-      try {
-        // Make API request
-        toast.success('Product updated');
-        navigate(paths.dashboard.products.list);
-      } catch (err) {
-        logger.error(err);
-        toast.error('Something went wrong!');
-      }
-    },
-    [navigate]
-  );
+  const onSubmit = React.useCallback(async (_: Values): Promise<void> => {
+    try {
+      // Make API request
+      toast.success('Product updated');
+    } catch (err) {
+      logger.error(err);
+      toast.error('Something went wrong!');
+    }
+  }, []);
 
   const handleImageDrop = React.useCallback(
     async (files: File[]) => {
@@ -621,7 +613,7 @@ export function ProductEditForm({ product }: ProductEditFormProps): React.JSX.El
               </Stack>
             </CardContent>
             <CardActions sx={{ justifyContent: 'flex-end' }}>
-              <Button color="secondary" component={RouterLink} href={paths.dashboard.products.list}>
+              <Button color="secondary" component={RouterLink} href="">
                 Cancel
               </Button>
               <Button type="submit" variant="contained">

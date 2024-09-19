@@ -5,7 +5,6 @@ import Select from '@mui/material/Select';
 import type { SelectChangeEvent } from '@mui/material/Select';
 import { useNavigate } from 'react-router-dom';
 
-import { paths } from '@/paths';
 import { Option } from '@/components/core/option';
 
 import type { Filters } from './invoices-filters';
@@ -56,7 +55,7 @@ export function InvoicesSort({ filters = {}, sortDir = 'desc', view }: InvoicesS
         searchParams.set('endDate', filters.endDate);
       }
 
-      navigate(`${paths.dashboard.invoices.list}?${searchParams.toString()}`);
+      navigate(`?${searchParams.toString()}`);
     },
     [navigate, view, filters]
   );

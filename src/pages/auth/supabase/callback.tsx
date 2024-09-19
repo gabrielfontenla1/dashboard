@@ -50,7 +50,7 @@ export function Page(): React.JSX.Element | null {
     if (error) {
       logger.debug(error.message);
       toast.error('Something went wrong');
-      navigate(paths.auth.supabase.signIn);
+      navigate('');
       return;
     }
 

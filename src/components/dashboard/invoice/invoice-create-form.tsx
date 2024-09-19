@@ -25,7 +25,6 @@ import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { z as zod } from 'zod';
 
-import { paths } from '@/paths';
 import { dayjs } from '@/lib/dayjs';
 import { logger } from '@/lib/default-logger';
 import { Option } from '@/components/core/option';
@@ -119,7 +118,7 @@ export function InvoiceCreateForm(): React.JSX.Element {
       try {
         // Make API request
         toast.success('Invoice created');
-        navigate(paths.dashboard.invoices.list);
+        navigate('');
       } catch (err) {
         logger.error(err);
         toast.error('Something went wrong!');

@@ -1,16 +1,7 @@
 import * as React from 'react';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
-import { Helmet } from 'react-helmet-async';
 import { useSearchParams } from 'react-router-dom';
-
-import type { Metadata } from '@/types/metadata';
-import { config } from '@/config';
-import { UpdatePasswordForm } from '@/components/auth/firebase/update-password-form';
-import { GuestGuard } from '@/components/auth/guest-guard';
-import { SplitLayout } from '@/components/auth/split-layout';
-
-const metadata = { title: `Update password | Firebase | Auth | ${config.site.name}` } satisfies Metadata;
 
 export function Page(): React.JSX.Element {
   const { oobCode } = useExtractSearchParams();
@@ -23,18 +14,7 @@ export function Page(): React.JSX.Element {
     );
   }
 
-  return (
-    <React.Fragment>
-      <Helmet>
-        <title>{metadata.title}</title>
-      </Helmet>
-      <GuestGuard>
-        <SplitLayout>
-          <UpdatePasswordForm oobCode={oobCode} />
-        </SplitLayout>
-      </GuestGuard>
-    </React.Fragment>
-  );
+  return <>Not Used (It will be deleted soon)</>;
 }
 
 function useExtractSearchParams(): { oobCode?: string } {

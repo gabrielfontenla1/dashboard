@@ -14,7 +14,6 @@ import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 
-import { paths } from '@/paths';
 import { FilterButton, FilterPopover, useFilterContext } from '@/components/core/filter-button';
 import { Option } from '@/components/core/option';
 
@@ -69,7 +68,7 @@ export function OrdersFilters({ filters = {}, sortDir = 'desc' }: OrdersFiltersP
         searchParams.set('customer', newFilters.customer);
       }
 
-      navigate(`${paths.dashboard.orders.list}?${searchParams.toString()}`);
+      navigate(`?${searchParams.toString()}`);
     },
     [navigate]
   );

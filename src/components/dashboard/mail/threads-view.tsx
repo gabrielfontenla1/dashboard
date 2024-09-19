@@ -16,7 +16,6 @@ import { DotsThree as DotsThreeIcon } from '@phosphor-icons/react/dist/ssr/DotsT
 import { List as ListIcon } from '@phosphor-icons/react/dist/ssr/List';
 import { MagnifyingGlass as MagnifyingGlassIcon } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass';
 
-import { paths } from '@/paths';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { useSelection } from '@/hooks/use-selection';
 
@@ -24,7 +23,7 @@ import { MailContext } from './mail-context';
 import { ThreadItem } from './thread-item';
 
 export function ThreadsView(): React.JSX.Element {
-  const { currentLabelId, threads, setOpenDesktopSidebar, setOpenMobileSidebar } = React.useContext(MailContext);
+  const { threads, setOpenDesktopSidebar, setOpenMobileSidebar } = React.useContext(MailContext);
 
   const mdDown = useMediaQuery('down', 'md');
 
@@ -117,7 +116,7 @@ export function ThreadsView(): React.JSX.Element {
           <Box sx={{ overflowY: 'auto' }}>
             {threads.map((thread) => (
               <ThreadItem
-                href={paths.dashboard.mail.details(currentLabelId, thread.id)}
+                href=""
                 key={thread.id}
                 onDeselect={() => {
                   deselectOne(thread.id);

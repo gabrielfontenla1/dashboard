@@ -19,7 +19,6 @@ import { DotsThree as DotsThreeIcon } from '@phosphor-icons/react/dist/ssr/DotsT
 import { MagnifyingGlass as MagnifyingGlassIcon } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass';
 import { Trash as TrashIcon } from '@phosphor-icons/react/dist/ssr/Trash';
 
-import { paths } from '@/paths';
 import { dayjs } from '@/lib/dayjs';
 import { RouterLink } from '@/components/core/link';
 
@@ -44,8 +43,6 @@ export interface ThreadViewProps {
 }
 
 export function ThreadView({ threadId }: ThreadViewProps): React.JSX.Element {
-  const { currentLabelId } = React.useContext(MailContext);
-
   const thread = useThread(threadId);
 
   if (!thread) {
@@ -58,7 +55,7 @@ export function ThreadView({ threadId }: ThreadViewProps): React.JSX.Element {
     );
   }
 
-  const backHref = paths.dashboard.mail.list(currentLabelId);
+  const backHref = '';
 
   const hasMessage = Boolean(thread.message);
   const hasAttachments = (thread.attachments ?? []).length > 0;

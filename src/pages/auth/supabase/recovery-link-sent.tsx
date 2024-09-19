@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { Helmet } from 'react-helmet-async';
@@ -12,7 +11,6 @@ import { config } from '@/config';
 import { paths } from '@/paths';
 import { GuestGuard } from '@/components/auth/guest-guard';
 import { SplitLayout } from '@/components/auth/split-layout';
-import { ResetPasswordButton } from '@/components/auth/supabase/reset-password-button';
 import { RouterLink } from '@/components/core/link';
 import { DynamicLogo } from '@/components/core/logo';
 
@@ -51,13 +49,7 @@ export function Page(): React.JSX.Element {
                 </Typography>
                 , you will receive a recovery email.
               </Typography>
-              <div>
-                <Link component={RouterLink} href={paths.auth.supabase.resetPassword} variant="subtitle2">
-                  Use another email
-                </Link>
-              </div>
             </Stack>
-            <ResetPasswordButton email={email}>Resend</ResetPasswordButton>
           </Stack>
         </SplitLayout>
       </GuestGuard>

@@ -18,7 +18,6 @@ import { PencilSimple as PencilSimpleIcon } from '@phosphor-icons/react/dist/ssr
 import { X as XIcon } from '@phosphor-icons/react/dist/ssr/X';
 import { useNavigate } from 'react-router-dom';
 
-import { paths } from '@/paths';
 import { dayjs } from '@/lib/dayjs';
 import { RouterLink } from '@/components/core/link';
 import { PropertyItem } from '@/components/core/property-item';
@@ -60,7 +59,7 @@ export function OrderModal({ open }: OrderModalProps): React.JSX.Element | null 
   // For the sake of simplicity, we are just using a static order object.
 
   const handleClose = React.useCallback(() => {
-    navigate(paths.dashboard.orders.list);
+    navigate('');
   }, [navigate]);
 
   return (
@@ -84,12 +83,7 @@ export function OrderModal({ open }: OrderModalProps): React.JSX.Element | null 
           <Stack spacing={3}>
             <Stack direction="row" spacing={3} sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
               <Typography variant="h6">Details</Typography>
-              <Button
-                color="secondary"
-                component={RouterLink}
-                href={paths.dashboard.orders.details('1')}
-                startIcon={<PencilSimpleIcon />}
-              >
+              <Button color="secondary" component={RouterLink} startIcon={<PencilSimpleIcon />}>
                 Edit
               </Button>
             </Stack>
