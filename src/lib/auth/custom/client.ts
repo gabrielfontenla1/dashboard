@@ -1,6 +1,8 @@
 'use client';
 
 import type { User } from '@/types/user';
+import {config} from "@/config";
+import {fetchRequest, HttpMethod} from "@/utils/fetch";
 
 function generateToken(): string {
   const arr = new Uint8Array(12);
@@ -14,6 +16,7 @@ const user = {
   firstName: 'Sofia',
   lastName: 'Rivers',
   email: 'sofia@devias.io',
+  typeOfUser: 'super-admin',
 } satisfies User;
 
 export interface SignUpParams {
@@ -51,19 +54,19 @@ class AuthClient {
     return { error: 'Social authentication not implemented' };
   }
 
-  //TODO delete default login data and call backend service
-  async signInWithPassword(params: SignInWithPasswordParams): Promise<{ error?: string }> {
+  async signInWithPassword(params: SignInWithPasswordParams): Promise<{ data?: any, error?: string }> {
     const { email, password } = params;
-
-    // Make API request
-
-    // TO-DO: Then remove mocked users
+    const { data } = await fetchRequest<any>(config.login.url + '/auth/login', HttpMethod.POST, {
+      email,
+      password,
+    });
     const mockedUsers = [
       { email: 'admin@admin.com', password: 'onesearch' },
       { email: 'user@user.com', password: 'onesearch' },
       { email: 'admin@hilton.com', password: 'onesearch' },
       { email: 'user@hilton.com', password: 'onesearch' },
     ];
+
     const foundUser = mockedUsers.find((u) => u.email === email && u.password === password);
     if (!foundUser) {
       return { error: 'Invalid credentials' };
@@ -72,7 +75,7 @@ class AuthClient {
     const token = generateToken();
     localStorage.setItem('custom-auth-token', token);
 
-    return {};
+    return {data};
   }
 
   async resetPassword(_: ResetPasswordParams): Promise<{ error?: string }> {
@@ -84,7 +87,7 @@ class AuthClient {
   }
 
   async getUser(): Promise<{ data?: User | null; error?: string }> {
-    // Make API request
+    // Make API request to get user info
 
     // We do not handle the API, so just check if we have a token in localStorage.
     const token = localStorage.getItem('custom-auth-token');
@@ -93,6 +96,7 @@ class AuthClient {
       return { data: null };
     }
 
+    //TODO REPLACE FOR REAL DATA
     return { data: user };
   }
 
