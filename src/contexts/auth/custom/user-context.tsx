@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import React, {useEffect, useState, createContext, useCallback, type ReactNode} from 'react';
 
 import type { User } from '@/types/user';
 import { authClient } from '@/lib/auth/custom/client';
@@ -8,14 +8,14 @@ import { logger } from '@/lib/default-logger';
 
 import type { UserContextValue } from '../types';
 
-export const UserContext = React.createContext<UserContextValue | undefined>(undefined);
+export const UserContext = createContext<UserContextValue | undefined>(undefined);
 
 export interface UserProviderProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-export function UserProvider({ children }: UserProviderProps): React.JSX.Element {
-  const [state, setState] = React.useState<{ user: User | null; error: string | null; isLoading: boolean }>({
+export function UserProvider({ children }: UserProviderProps): JSX.Element {
+  const [state, setState] = useState<{ user: User | null; error: string | null; isLoading: boolean }>({
     user: null,
     error: null,
     isLoading: true,

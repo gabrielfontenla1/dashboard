@@ -16,6 +16,8 @@ interface ImportMetaEnv {
   VITE_AUTH0_DOMAIN?: string;
   VITE_AUTH0_CLIENT_ID?: string;
 
+  VITE_LOGIN_URL: string;
+
   // AWS Cognito
   VITE_COGNITO_IDENTITY_POOL_ID?: string;
   VITE_COGNITO_USER_POOL_CLIENT_ID?: string;

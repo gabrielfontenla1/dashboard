@@ -30,7 +30,7 @@ type Values = zod.infer<typeof schema>;
 const defaultValues = { email: '', password: '' } satisfies Values;
 //TODO replace for new brand onesearch
 export function SignInForm(): JSX.Element {
-  const { checkSession } = useUser();
+  const { checkSession, user } = useUser();
 
   const [showPassword, setShowPassword] = useState<boolean>();
 
@@ -47,7 +47,7 @@ export function SignInForm(): JSX.Element {
     async (values: Values): Promise<void> => {
       setIsPending(true);
 
-      const { error } = await authClient.signInWithPassword(values);
+      const { data, error } = await authClient.signInWithPassword(values);
 
       if (error) {
         setError('root', { type: 'server', message: error });

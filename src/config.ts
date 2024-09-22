@@ -17,6 +17,7 @@ export interface Config {
   logLevel: keyof typeof LogLevel;
   auth: { strategy: keyof typeof AuthStrategy };
   auth0: { domain?: string; clientId?: string };
+  login: { url: string };
   cognito: { identityPoolId?: string; userPoolClientId?: string; userPoolId?: string };
   firebase: {
     apiKey?: string;
@@ -45,6 +46,7 @@ export const config = {
   logLevel: (import.meta.env.VITE_LOG_LEVEL as keyof typeof LogLevel) || LogLevel.ALL,
   auth: { strategy: (import.meta.env.VITE_AUTH_STRATEGY as keyof typeof AuthStrategy) || AuthStrategy.CUSTOM },
   auth0: { domain: import.meta.env.VITE_AUTH0_DOMAIN, clientId: import.meta.env.VITE_AUTH0_CLIENT_ID },
+  login: { url: import.meta.env.VITE_LOGIN_URL },
   cognito: {
     identityPoolId: import.meta.env.VITE_COGNITO_IDENTITY_POOL_ID,
     userPoolClientId: import.meta.env.VITE_COGNITO_USER_POOL_CLIENT_ID,
