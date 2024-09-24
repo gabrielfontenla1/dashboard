@@ -1,13 +1,14 @@
-
 export enum HttpMethod {
   GET = 'GET',
   POST = 'POST',
   PUT = 'PUT',
   DELETE = 'DELETE',
-  PATCH = 'PATCH'
+  PATCH = 'PATCH',
 }
 
 type BodyType = Record<string, any> | null;
+
+const controlledStatusCodes = [401];
 
 /**
  * Fetch request with error handling.
@@ -20,7 +21,6 @@ export const fetchRequest = async <T>(
   method: HttpMethod = HttpMethod.GET,
   body: BodyType = null
 ): Promise<T> => {
-
   const options: RequestInit = {
     method: method,
     headers: {
@@ -34,13 +34,12 @@ export const fetchRequest = async <T>(
 
   try {
     const response: Response = await fetch(url, options);
-    if (!response.ok) {
+    if (!response.ok && !controlledStatusCodes.includes(401)) {
       throw new Error(`Error ${response.status}: ${response.statusText}`);
     }
-    return await response.json() as T;
+    return (await response.json()) as T;
   } catch (error) {
     console.error('Fetch error:', error);
     throw error;
   }
-}
-
+};

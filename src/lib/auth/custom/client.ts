@@ -1,8 +1,9 @@
 'use client';
 
+import { fetchRequest, HttpMethod } from '@/utils/fetch';
+
 import type { User } from '@/types/user';
-import {config} from "@/config";
-import {fetchRequest, HttpMethod} from "@/utils/fetch";
+import { config } from '@/config';
 
 function generateToken(): string {
   const arr = new Uint8Array(12);
@@ -39,6 +40,13 @@ export interface ResetPasswordParams {
   email: string;
 }
 
+export interface SignInResponse {
+  success: boolean;
+  message: string;
+  accessToken: string;
+  refreshToken: string;
+}
+
 class AuthClient {
   async signUp(_: SignUpParams): Promise<{ error?: string }> {
     // Make API request
@@ -54,28 +62,23 @@ class AuthClient {
     return { error: 'Social authentication not implemented' };
   }
 
-  async signInWithPassword(params: SignInWithPasswordParams): Promise<{ data?: any, error?: string }> {
+  async signInWithPassword(params: SignInWithPasswordParams): Promise<{ data?: SignInResponse; error?: string }> {
     const { email, password } = params;
-    const { data } = await fetchRequest<any>(config.login.url + '/auth/login', HttpMethod.POST, {
+    const data = await fetchRequest<SignInResponse>(`${config.login.url}/auth/login`, HttpMethod.POST, {
       email,
       password,
     });
-    const mockedUsers = [
-      { email: 'admin@admin.com', password: 'onesearch' },
-      { email: 'user@user.com', password: 'onesearch' },
-      { email: 'admin@hilton.com', password: 'onesearch' },
-      { email: 'user@hilton.com', password: 'onesearch' },
-    ];
 
-    const foundUser = mockedUsers.find((u) => u.email === email && u.password === password);
-    if (!foundUser) {
+    if (!data.accessToken && !data.refreshToken) {
       return { error: 'Invalid credentials' };
     }
 
     const token = generateToken();
     localStorage.setItem('custom-auth-token', token);
+    localStorage.setItem('accessToken', data.accessToken);
+    localStorage.setItem('refreshToken', data.refreshToken);
 
-    return {data};
+    return { data };
   }
 
   async resetPassword(_: ResetPasswordParams): Promise<{ error?: string }> {
@@ -102,6 +105,8 @@ class AuthClient {
 
   async signOut(): Promise<{ error?: string }> {
     localStorage.removeItem('custom-auth-token');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
 
     return {};
   }

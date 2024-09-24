@@ -1,71 +1,72 @@
 import * as React from 'react';
 
+import { chatClient, type ChatsResponse } from '@/lib/chat/client';
 import { dayjs } from '@/lib/dayjs';
 import { ChatProvider } from '@/components/dashboard/chat/chat-context';
 import { ChatView } from '@/components/dashboard/chat/chat-view';
 import type { Contact, Message, Thread } from '@/components/dashboard/chat/types';
 
-const contacts = [
-  {
-    id: 'USR-010',
-    name: 'Alcides Antonio',
-    avatar: '/assets/avatar-10.png',
-    isActive: false,
-    lastActivity: dayjs().subtract(1, 'hour').toDate(),
-  },
-  {
-    id: 'USR-003',
-    name: 'Carson Darrin',
-    avatar: '/assets/avatar-3.png',
-    isActive: false,
-    lastActivity: dayjs().subtract(15, 'minute').toDate(),
-  },
-  { id: 'USR-005', name: 'Fran Perez', avatar: '/assets/avatar-5.png', isActive: true, lastActivity: dayjs().toDate() },
-  { id: 'USR-006', name: 'Iulia Albu', avatar: '/assets/avatar-6.png', isActive: true, lastActivity: dayjs().toDate() },
-  { id: 'USR-008', name: 'Jie Yan', avatar: '/assets/avatar-8.png', isActive: true, lastActivity: dayjs().toDate() },
-  {
-    id: 'USR-009',
-    name: 'Marcus Finn',
-    avatar: '/assets/avatar-9.png',
-    isActive: false,
-    lastActivity: dayjs().subtract(2, 'hour').toDate(),
-  },
-  {
-    id: 'USR-001',
-    name: 'Miron Vitold',
-    avatar: '/assets/avatar-1.png',
-    isActive: true,
-    lastActivity: dayjs().toDate(),
-  },
-  {
-    id: 'USR-007',
-    name: 'Nasimiyu Danai',
-    avatar: '/assets/avatar-7.png',
-    isActive: true,
-    lastActivity: dayjs().toDate(),
-  },
-  {
-    id: 'USR-011',
-    name: 'Omar Darobe',
-    avatar: '/assets/avatar-11.png',
-    isActive: true,
-    lastActivity: dayjs().toDate(),
-  },
-  {
-    id: 'USR-004',
-    name: 'Penjani Inyene',
-    avatar: '/assets/avatar-4.png',
-    isActive: false,
-    lastActivity: dayjs().subtract(6, 'hour').toDate(),
-  },
-  {
-    id: 'USR-002',
-    name: 'Siegbert Gottfried',
-    avatar: '/assets/avatar-2.png',
-    isActive: true,
-    lastActivity: dayjs().toDate(),
-  },
-] satisfies Contact[];
+// const contacts = [
+//   {
+//     id: 'USR-010',
+//     name: 'Alcides Antonio',
+//     avatar: '/assets/avatar-10.png',
+//     isActive: false,
+//     lastActivity: dayjs().subtract(1, 'hour').toDate(),
+//   },
+//   {
+//     id: 'USR-003',
+//     name: 'Carson Darrin',
+//     avatar: '/assets/avatar-3.png',
+//     isActive: false,
+//     lastActivity: dayjs().subtract(15, 'minute').toDate(),
+//   },
+//   { id: 'USR-005', name: 'Fran Perez', avatar: '/assets/avatar-5.png', isActive: true, lastActivity: dayjs().toDate() },
+//   { id: 'USR-006', name: 'Iulia Albu', avatar: '/assets/avatar-6.png', isActive: true, lastActivity: dayjs().toDate() },
+//   { id: 'USR-008', name: 'Jie Yan', avatar: '/assets/avatar-8.png', isActive: true, lastActivity: dayjs().toDate() },
+//   {
+//     id: 'USR-009',
+//     name: 'Marcus Finn',
+//     avatar: '/assets/avatar-9.png',
+//     isActive: false,
+//     lastActivity: dayjs().subtract(2, 'hour').toDate(),
+//   },
+//   {
+//     id: 'USR-001',
+//     name: 'Miron Vitold',
+//     avatar: '/assets/avatar-1.png',
+//     isActive: true,
+//     lastActivity: dayjs().toDate(),
+//   },
+//   {
+//     id: 'USR-007',
+//     name: 'Nasimiyu Danai',
+//     avatar: '/assets/avatar-7.png',
+//     isActive: true,
+//     lastActivity: dayjs().toDate(),
+//   },
+//   {
+//     id: 'USR-011',
+//     name: 'Omar Darobe',
+//     avatar: '/assets/avatar-11.png',
+//     isActive: true,
+//     lastActivity: dayjs().toDate(),
+//   },
+//   {
+//     id: 'USR-004',
+//     name: 'Penjani Inyene',
+//     avatar: '/assets/avatar-4.png',
+//     isActive: false,
+//     lastActivity: dayjs().subtract(6, 'hour').toDate(),
+//   },
+//   {
+//     id: 'USR-002',
+//     name: 'Siegbert Gottfried',
+//     avatar: '/assets/avatar-2.png',
+//     isActive: true,
+//     lastActivity: dayjs().toDate(),
+//   },
+// ] satisfies Contact[];
 
 const threads = [
   {
@@ -294,6 +295,50 @@ interface LayoutProps {
 }
 
 export function Layout({ children }: LayoutProps): React.JSX.Element {
+  const [chatsResponse, setChatsResponse] = React.useState<ChatsResponse[] | null>(null);
+  const [contacts, setContacts] = React.useState<Contact[] | null>(null);
+  const [error, setError] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    const fetchChats = async () => {
+      try {
+        const response = await chatClient.getChats();
+        if (response.error) {
+          setError(response.error);
+        } else {
+          setChatsResponse(response.data || null);
+        }
+      } catch (err) {
+        setError('Error al obtener los chats.');
+      }
+    };
+
+    void fetchChats();
+  }, []);
+
+  React.useEffect(() => {
+    if (chatsResponse) {
+      const _contacts = chatsResponse.map((chat) => {
+        return {
+          id: chat.chatId,
+          name: chat.ProfileName,
+          avatar: '/assets/avatar-10.png',
+          isActive: true,
+          lastActivity: dayjs(chat.dateAdded).toDate(),
+        };
+      });
+      setContacts(_contacts);
+    }
+  }, [chatsResponse]);
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!contacts) {
+    return <div>Cargando chats...</div>;
+  }
+
   return (
     <ChatProvider contacts={contacts} messages={messages} threads={threads}>
       <ChatView>{children}</ChatView>
