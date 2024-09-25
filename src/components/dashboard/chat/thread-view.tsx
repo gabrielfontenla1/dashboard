@@ -5,6 +5,8 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
+import { chatClient } from '@/lib/chat/client';
+
 import { ChatContext } from './chat-context';
 import { MessageAdd } from './message-add';
 import { MessageBox } from './message-box';
@@ -53,8 +55,10 @@ export function ThreadView({ threadId }: ThreadViewProps): React.JSX.Element | n
   const handleSendMessage = React.useCallback(
     async (type: MessageType, content: string) => {
       createMessage({ threadId, type, content });
+      const receptorId = thread?.participants[0].name || '';
+      await chatClient.sendChatMessage(content, receptorId);
     },
-    [threadId, createMessage]
+    [createMessage, threadId, thread]
   );
 
   React.useEffect(() => {
