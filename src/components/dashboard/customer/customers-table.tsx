@@ -1,53 +1,27 @@
 'use client';
 
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
+import { Button, Grid, TextField } from '@mui/material';
 import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
-import IconButton from '@mui/material/IconButton';
-import LinearProgress from '@mui/material/LinearProgress';
-import Link from '@mui/material/Link';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { CheckCircle as CheckCircleIcon } from '@phosphor-icons/react/dist/ssr/CheckCircle';
-import { Clock as ClockIcon } from '@phosphor-icons/react/dist/ssr/Clock';
-import { Minus as MinusIcon } from '@phosphor-icons/react/dist/ssr/Minus';
-import { PencilSimple as PencilSimpleIcon } from '@phosphor-icons/react/dist/ssr/PencilSimple';
 
-import { paths } from '@/paths';
+import { customersClient, type CustomersDataResponse, type CustomersDataTable } from '@/lib/customers/client';
 import { dayjs } from '@/lib/dayjs';
 import { DataTable } from '@/components/core/data-table';
 import type { ColumnDef } from '@/components/core/data-table';
-import { RouterLink } from '@/components/core/link';
-
-import { useCustomersSelection } from './customers-selection-context';
-
-export interface Customer {
-  id: string;
-  name: string;
-  avatar?: string;
-  email: string;
-  phone?: string;
-  quota: number;
-  status: 'pending' | 'active' | 'blocked';
-  createdAt: Date;
-}
 
 const columns = [
+  { field: 'id', name: 'ID', width: '20px' },
   {
     formatter: (row): React.JSX.Element => (
       <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-        <Avatar src={row.avatar} />{' '}
         <div>
-          <Link
-            color="inherit"
-            component={RouterLink}
-            href={paths.dashboard.customers.details('1')}
-            sx={{ whiteSpace: 'nowrap' }}
-            variant="subtitle2"
-          >
-            {row.name}
-          </Link>
+          {row.name}
           <Typography color="text.secondary" variant="body2">
             {row.email}
           </Typography>
@@ -55,85 +29,217 @@ const columns = [
       </Stack>
     ),
     name: 'Name',
-    width: '250px',
+    width: '200px',
   },
-  {
-    formatter: (row): React.JSX.Element => (
-      <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
-        <LinearProgress sx={{ flex: '1 1 auto' }} value={row.quota} variant="determinate" />
-        <Typography color="text.secondary" variant="body2">
-          {new Intl.NumberFormat('en-US', { style: 'percent', maximumFractionDigits: 2 }).format(row.quota / 100)}
-        </Typography>
-      </Stack>
-    ),
-    name: 'Quota',
-    width: '250px',
-  },
-  { field: 'phone', name: 'Phone number', width: '150px' },
+  { field: 'phoneId', name: 'Phone number', width: '150px' },
   {
     formatter(row) {
       return dayjs(row.createdAt).format('MMM D, YYYY h:mm A');
     },
     name: 'Created at',
-    width: '200px',
+    width: '100px',
   },
   {
-    formatter: (row): React.JSX.Element => {
-      const mapping = {
-        active: { label: 'Active', icon: <CheckCircleIcon color="var(--mui-palette-success-main)" weight="fill" /> },
-        blocked: { label: 'Blocked', icon: <MinusIcon color="var(--mui-palette-error-main)" /> },
-        pending: { label: 'Pending', icon: <ClockIcon color="var(--mui-palette-warning-main)" weight="fill" /> },
-      } as const;
-      const { label, icon } = mapping[row.status] ?? { label: 'Unknown', icon: null };
-
-      return <Chip icon={icon} label={label} size="small" variant="outlined" />;
-    },
-    name: 'Status',
-    width: '150px',
-  },
-  {
-    formatter: (): React.JSX.Element => (
-      <IconButton component={RouterLink} href={paths.dashboard.customers.details('1')}>
-        <PencilSimpleIcon />
-      </IconButton>
+    formatter: (row): React.JSX.Element => (
+      <Grid container spacing={1}>
+        <Grid item>
+          <Button
+            size="small"
+            variant="contained"
+            onClick={() => {
+              if (row.onUploadPrompt) row.onUploadPrompt();
+            }}
+          >
+            Upload Prompt
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            size="small"
+            variant="contained"
+            onClick={() => {
+              if (row.onUploadRAG) row.onUploadRAG();
+            }}
+          >
+            Upload RAG
+          </Button>
+        </Grid>
+      </Grid>
     ),
     name: 'Actions',
     hideName: true,
-    width: '100px',
+    width: '200px',
     align: 'right',
   },
-] satisfies ColumnDef<Customer>[];
+] satisfies ColumnDef<CustomersDataTable>[];
 
-export interface CustomersTableProps {
-  rows: Customer[];
-}
+export function CustomersTable(): React.JSX.Element {
+  const [customers, setCustomers] = React.useState<CustomersDataResponse[] | null>(null);
+  const [error, setError] = React.useState<string | null>(null);
 
-export function CustomersTable({ rows }: CustomersTableProps): React.JSX.Element {
-  const { deselectAll, deselectOne, selectAll, selectOne, selected } = useCustomersSelection();
+  const [promptModalOpen, setPromptModalOpen] = React.useState(false);
+  const [ragModalOpen, setRagModelopen] = React.useState(false);
+  const [modalClient, setModalClient] = React.useState<CustomersDataResponse>();
+
+  React.useEffect(() => {
+    const fetchCustomers = async (): Promise<void> => {
+      try {
+        const response = await customersClient.getCustomers();
+        if (response.error) {
+          setError(response.error);
+        } else {
+          const _customers = response.data?.map((_customer) => {
+            return {
+              ..._customer,
+              onUploadPrompt: () => {
+                setPromptModalOpen(true);
+                setModalClient(_customer);
+              },
+              onUploadRAG: () => {
+                setRagModelopen(true);
+                setModalClient(_customer);
+              },
+            };
+          });
+          setCustomers(_customers || null);
+        }
+      } catch (err) {
+        setError('Error al obtener los customers.');
+      }
+    };
+
+    void fetchCustomers();
+  }, []);
+
+  const handleClosePrompt = (): void => {
+    setPromptModalOpen(false);
+  };
+
+  const handleCloseRAG = (): void => {
+    setRagModelopen(false);
+  };
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <React.Fragment>
-      <DataTable<Customer>
-        columns={columns}
-        onDeselectAll={deselectAll}
-        onDeselectOne={(_, row) => {
-          deselectOne(row.id);
-        }}
-        onSelectAll={selectAll}
-        onSelectOne={(_, row) => {
-          selectOne(row.id);
-        }}
-        rows={rows}
-        selectable
-        selected={selected}
-      />
-      {!rows.length ? (
+      {customers ? <DataTable<CustomersDataResponse> columns={columns} rows={customers} /> : null}
+      {!customers?.length || !customers ? (
         <Box sx={{ p: 3 }}>
           <Typography color="text.secondary" sx={{ textAlign: 'center' }} variant="body2">
             No customers found
           </Typography>
         </Box>
       ) : null}
+      {/* Modal */}
+      {modalClient ? (
+        <>
+          <ModalPrompt open={promptModalOpen} onClose={handleClosePrompt} customer={modalClient} />
+          <ModalRAG open={ragModalOpen} onClose={handleCloseRAG} customer={modalClient} />
+        </>
+      ) : null}
     </React.Fragment>
+  );
+}
+
+export function ModalPrompt({
+  open,
+  onClose,
+  customer,
+}: {
+  open: boolean;
+  onClose: () => void;
+  customer: CustomersDataResponse;
+}): React.JSX.Element {
+  const [text, setText] = React.useState<string>(customer.prompt);
+  const [error, setError] = React.useState<string | null>(null);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    setIsLoading(false);
+  }, [open]);
+
+  const uploadPrompt = async (): Promise<void> => {
+    try {
+      setIsLoading(true);
+      const response = await customersClient.updatePrompt(customer.id, text);
+      if (response.error) {
+        setError(response.error);
+      } else {
+        onClose();
+      }
+    } catch (err) {
+      setError('Error al actualizar el prompt.');
+    }
+  };
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  return (
+    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+      <DialogTitle sx={{ fontSize: '1.5rem', fontWeight: 'bold', textAlign: 'center', paddingTop: '24px' }}>
+        Upload Prompt for {customer.name}
+      </DialogTitle>
+      <DialogContent sx={{ padding: '32px' }}>
+        <TextField
+          variant="outlined"
+          fullWidth
+          multiline
+          rows={12}
+          value={text}
+          onChange={(e) => {
+            setText(e.target.value);
+          }}
+          sx={{ marginTop: '16px' }}
+          placeholder="Escribe aquí..."
+        />
+      </DialogContent>
+      <DialogActions sx={{ padding: '24px 32px' }}>
+        <Button onClick={onClose}>Cancelar</Button>
+        <Button
+          onClick={() => {
+            void uploadPrompt();
+          }}
+          disabled={isLoading}
+          variant="contained"
+        >
+          Upload
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
+
+export function ModalRAG({
+  open,
+  onClose,
+  customer,
+}: {
+  open: boolean;
+  onClose: () => void;
+  customer: CustomersDataResponse;
+}): React.JSX.Element {
+  return (
+    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+      <DialogTitle sx={{ fontSize: '1.5rem', fontWeight: 'bold', textAlign: 'center', paddingTop: '24px' }}>
+        Upload RAG for {customer.name}
+      </DialogTitle>
+      <DialogContent sx={{ padding: '32px' }}>Content</DialogContent>
+      <DialogActions sx={{ padding: '24px 32px' }}>
+        <Button onClick={onClose}>Cancelar</Button>
+        <Button
+          onClick={() => {
+            onClose();
+          }}
+          variant="contained"
+        >
+          Upload
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }
