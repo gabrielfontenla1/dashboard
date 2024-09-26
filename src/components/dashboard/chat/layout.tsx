@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { chatClient, type ChatsDataResponse } from '@/lib/chat/client';
 import { dayjs } from '@/lib/dayjs';
+import useSocket, { type SocketMessageResponse } from '@/hooks/use-socket';
 import { ChatProvider } from '@/components/dashboard/chat/chat-context';
 import { ChatView } from '@/components/dashboard/chat/chat-view';
 import type { Contact, Message, Thread } from '@/components/dashboard/chat/types';
@@ -16,6 +17,35 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
   const [contacts, setContacts] = React.useState<Contact[]>([]);
   const [messages, setMessages] = React.useState<Message[]>([]);
   const [threads, setThreads] = React.useState<Thread[]>([]);
+
+  const socket = useSocket();
+
+  React.useEffect(() => {
+    if (!socket) return;
+
+    socket.on('message-from-server', ({ message }: SocketMessageResponse) => {
+      const formatMessage = (): Message => {
+        const isSended = { avatar: '/assets/avatar.png', id: 'USR-000', name: 'Sofia Rivers' };
+        const isReceived = {
+          id: message.from,
+          name: message.from,
+          avatar: '/assets/avatar-10.png',
+        };
+        const author = message.to === '+573105252119' ? isReceived : isSended;
+        return {
+          id: message.from,
+          threadId: message.chatId,
+          type: 'text',
+          content: message.message,
+          author,
+          createdAt: dayjs().toDate(),
+        };
+      };
+
+      const newMessage = formatMessage();
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+    });
+  }, [socket]);
 
   React.useEffect(() => {
     const fetchChats = async () => {
@@ -39,7 +69,7 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
       if (chatsResponse) {
         try {
           const _contacts = chatsResponse.map((chat) => ({
-            id: chat.receptorId,
+            id: chat.to,
             name: chat.ProfileName,
             avatar: '/assets/avatar-10.png',
             isActive: true,
@@ -50,9 +80,7 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
           const _threads = chatsResponse.map((chatDetail) => ({
             id: chatDetail.chatId,
             type: 'direct',
-            participants: [
-              { id: chatDetail.receptorId, name: chatDetail.ProfileName, avatar: '/assets/avatar-10.png' },
-            ],
+            participants: [{ id: chatDetail.to, name: chatDetail.ProfileName, avatar: '/assets/avatar-10.png' }],
             unreadCount: 0,
           })) as Thread[];
 
@@ -66,11 +94,11 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
               chatDetail.data?.map((chatMessage) => {
                 const isSended = { avatar: '/assets/avatar.png', id: 'USR-000', name: 'Sofia Rivers' };
                 const isReceived = {
-                  id: chatMessage.senderId,
-                  name: chatMessage.senderId,
+                  id: chatMessage.from,
+                  name: chatMessage.from,
                   avatar: '/assets/avatar-10.png',
                 };
-                const author = chatMessage.receptorId === '+573105252119' ? isReceived : isSended;
+                const author = chatMessage.to === '+573105252119' ? isReceived : isSended;
                 return {
                   id: chatMessage._id,
                   threadId: chatMessage.chatId,

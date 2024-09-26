@@ -43,6 +43,7 @@ export const fetchRequest = async <T>(
       localStorage.removeItem('custom-auth-token');
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
+      window.location.reload();
     }
 
     if (!response.ok && !controlledStatusCodes.includes(401)) {

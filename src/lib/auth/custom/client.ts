@@ -64,7 +64,7 @@ class AuthClient {
 
   async signInWithPassword(params: SignInWithPasswordParams): Promise<{ data?: SignInResponse; error?: string }> {
     const { email, password } = params;
-    const data = await fetchRequest<SignInResponse>(`${config.login.url}/auth/login`, HttpMethod.POST, {
+    const data = await fetchRequest<SignInResponse>(`${config.api.url}/auth/login`, HttpMethod.POST, {
       email,
       password,
     });

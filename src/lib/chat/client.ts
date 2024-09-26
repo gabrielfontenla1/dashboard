@@ -7,12 +7,11 @@ import { config } from '@/config';
 export interface ChatsDataResponse {
   _id: string;
   chatId: string;
-  senderId: string;
-  receptorId: string;
+  from: string;
+  to: string;
   ProfileName: string;
   dateAdded: string;
   lastMessage: string;
-  __v: number;
 }
 
 export interface ChatsResponse {
@@ -22,15 +21,14 @@ export interface ChatsResponse {
 
 export interface ChatDetailDataResponse {
   _id: string;
-  senderId: string;
-  receptorId: string;
+  from: string;
+  to: string;
   message: string;
-  type: 'MESSAGE' | 'PAUSE' | 'RESUME';
   pauseByUser: boolean;
   dateAdded: string;
-  origin: 'FRONTEND' | 'TWILIO';
   chatId: string;
-  __v: number;
+  type: 'MESSAGE' | 'PAUSE' | 'RESUME';
+  origin: 'FRONTEND' | 'TWILIO';
 }
 
 export interface ChatDetailResponse {
@@ -45,7 +43,7 @@ export interface ChatSendMessageResponse {
 
 class ChatClient {
   async getChats(): Promise<{ data?: ChatsDataResponse[]; error?: string }> {
-    const { data, success } = await fetchRequest<ChatsResponse>(`${config.login.url}/chat`, HttpMethod.GET);
+    const { data, success } = await fetchRequest<ChatsResponse>(`${config.api.url}/chat`, HttpMethod.GET);
     if (success) {
       return { data };
     }
@@ -54,7 +52,7 @@ class ChatClient {
 
   async getChatDetail(chatId: string): Promise<{ data?: ChatDetailDataResponse[]; error?: string }> {
     const { data, success } = await fetchRequest<ChatDetailResponse>(
-      `${config.login.url}/history-message/${chatId}`,
+      `${config.api.url}/history-message/${chatId}`,
       HttpMethod.GET
     );
     if (success) {
@@ -63,17 +61,14 @@ class ChatClient {
     return { error: 'Chats Detail error' };
   }
 
-  async sendChatMessage(
-    message: string,
-    receptorId: string
-  ): Promise<{ data?: ChatDetailDataResponse; error?: string }> {
+  async sendChatMessage(message: string, to: string): Promise<{ data?: ChatDetailDataResponse; error?: string }> {
     const { data, success } = await fetchRequest<ChatSendMessageResponse>(
-      `${config.login.url}/history-message`,
+      `${config.api.url}/history-message`,
       HttpMethod.POST,
       {
-        receptorId,
+        to,
         message,
-        senderId: '+573105252119',
+        from: '+573105252119',
         type: 'MESSAGE',
         origin: 'FRONTEND',
         pauseByUser: false,

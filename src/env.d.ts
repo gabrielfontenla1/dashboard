@@ -16,8 +16,6 @@ interface ImportMetaEnv {
   VITE_AUTH0_DOMAIN?: string;
   VITE_AUTH0_CLIENT_ID?: string;
 
-  VITE_LOGIN_URL: string;
-
   // AWS Cognito
   VITE_COGNITO_IDENTITY_POOL_ID?: string;
   VITE_COGNITO_USER_POOL_CLIENT_ID?: string;
@@ -41,6 +39,12 @@ interface ImportMetaEnv {
 
   // Google Tag Manager
   VITE_GOOGLE_TAG_MANAGER_ID?: string;
+
+  // Api
+  VITE_API: string;
+
+  // Socket
+  VITE_SOCKET_URL: string;
 }
 
 interface ImportMeta {
