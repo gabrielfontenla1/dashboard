@@ -5,6 +5,8 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
+import { chatClient } from '@/lib/chat/client';
+
 import { ChatContext } from './chat-context';
 import { MessageAdd } from './message-add';
 import { MessageBox } from './message-box';
@@ -52,9 +54,11 @@ export function ThreadView({ threadId }: ThreadViewProps): React.JSX.Element | n
 
   const handleSendMessage = React.useCallback(
     async (type: MessageType, content: string) => {
-      createMessage({ threadId, type, content });
+      // createMessage({ threadId, type, content });
+      const to = thread?.participants[0].id || '';
+      await chatClient.sendChatMessage(content, to);
     },
-    [threadId, createMessage]
+    [thread]
   );
 
   React.useEffect(() => {
@@ -77,8 +81,8 @@ export function ThreadView({ threadId }: ThreadViewProps): React.JSX.Element | n
     <Box sx={{ display: 'flex', flex: '1 1 auto', flexDirection: 'column', minHeight: 0 }}>
       <ThreadToolbar thread={thread} />
       <Stack ref={messagesRef} spacing={2} sx={{ flex: '1 1 auto', overflowY: 'auto', p: 3 }}>
-        {messages.map((message) => (
-          <MessageBox key={message.id} message={message} />
+        {messages.map((message, i) => (
+          <MessageBox key={i} message={message} />
         ))}
       </Stack>
       <MessageAdd onSend={handleSendMessage} />

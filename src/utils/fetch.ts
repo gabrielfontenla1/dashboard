@@ -1,13 +1,14 @@
-
 export enum HttpMethod {
   GET = 'GET',
   POST = 'POST',
   PUT = 'PUT',
   DELETE = 'DELETE',
-  PATCH = 'PATCH'
+  PATCH = 'PATCH',
 }
 
 type BodyType = Record<string, any> | null;
+
+const controlledStatusCodes = [401];
 
 /**
  * Fetch request with error handling.
@@ -20,11 +21,12 @@ export const fetchRequest = async <T>(
   method: HttpMethod = HttpMethod.GET,
   body: BodyType = null
 ): Promise<T> => {
-
+  const token = localStorage.getItem('accessToken');
   const options: RequestInit = {
-    method: method,
+    method,
     headers: {
       'Content-Type': 'application/json',
+      ...(token && { Authorization: `Bearer ${token}` }),
     },
   };
 
@@ -34,13 +36,22 @@ export const fetchRequest = async <T>(
 
   try {
     const response: Response = await fetch(url, options);
-    if (!response.ok) {
+
+    // TO-DO: Improve this method to logout when the accessToken is expired
+    const responseJSON = (await response.json()) as T;
+    if (responseJSON?.message === 'Unauthorized') {
+      localStorage.removeItem('custom-auth-token');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      window.location.reload();
+    }
+
+    if (!response.ok && !controlledStatusCodes.includes(401)) {
       throw new Error(`Error ${response.status}: ${response.statusText}`);
     }
-    return await response.json() as T;
+    return responseJSON;
   } catch (error) {
     console.error('Fetch error:', error);
     throw error;
   }
-}
-
+};
