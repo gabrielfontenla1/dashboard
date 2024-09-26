@@ -15,6 +15,17 @@ import { dayjs } from '@/lib/dayjs';
 import { DataTable } from '@/components/core/data-table';
 import type { ColumnDef } from '@/components/core/data-table';
 
+export interface Customer {
+  id: string;
+  name: string;
+  avatar?: string;
+  email: string;
+  phone?: string;
+  quota: number;
+  status: 'pending' | 'active' | 'blocked';
+  createdAt: Date;
+}
+
 const columns = [
   { field: 'id', name: 'ID', width: '20px' },
   {
