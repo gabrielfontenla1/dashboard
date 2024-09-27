@@ -14,6 +14,7 @@ import { customersClient, type CustomersDataResponse, type CustomersDataTable } 
 import { dayjs } from '@/lib/dayjs';
 import { DataTable } from '@/components/core/data-table';
 import type { ColumnDef } from '@/components/core/data-table';
+import { FileDropzone } from '@/components/core/file-dropzone';
 
 export interface Customer {
   id: string;
@@ -234,15 +235,37 @@ export function ModalRAG({
   onClose: () => void;
   customer: CustomersDataResponse;
 }): React.JSX.Element {
+  const handleUpload = (files: File[]): void => {
+    const file = files[0];
+    // console.log(files);
+    // if (file) {
+    //   const reader = new FileReader();
+    //   reader.onloadend = () => {
+    //     const base64String = reader.result as string;
+    //     console.log('Base64 String:', base64String);
+    //   };
+    // }
+  };
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle sx={{ fontSize: '1.5rem', fontWeight: 'bold', textAlign: 'center', paddingTop: '24px' }}>
         Upload RAG for {customer.name}
       </DialogTitle>
-      <DialogContent sx={{ padding: '32px' }}>Content</DialogContent>
+      <DialogContent sx={{ padding: '32px' }}>
+        <FileDropzone
+          accept={{ 'application/pdf': [] }}
+          caption="Only PDF is allowed"
+          multiple={false}
+          onDrop={(files) => {
+            handleUpload(files);
+          }}
+        />
+      </DialogContent>
       <DialogActions sx={{ padding: '24px 32px' }}>
         <Button onClick={onClose}>Cancelar</Button>
         <Button
+          disabled={true}
           onClick={() => {
             onClose();
           }}

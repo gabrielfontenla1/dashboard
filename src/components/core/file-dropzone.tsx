@@ -20,7 +20,7 @@ export interface FileDropzoneProps extends DropzoneOptions {
 }
 
 export function FileDropzone({ caption, ...props }: FileDropzoneProps): React.JSX.Element {
-  const { getRootProps, getInputProps, isDragActive } = useDropzone(props);
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ ...props });
 
   return (
     <Stack spacing={2}>
