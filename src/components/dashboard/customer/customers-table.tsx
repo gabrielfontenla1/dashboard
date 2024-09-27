@@ -235,16 +235,17 @@ export function ModalRAG({
   onClose: () => void;
   customer: CustomersDataResponse;
 }): React.JSX.Element {
+  const [base64String, setBase64String] = React.useState<string>('');
+
   const handleUpload = (files: File[]): void => {
     const file = files[0];
-    // console.log(files);
-    // if (file) {
-    //   const reader = new FileReader();
-    //   reader.onloadend = () => {
-    //     const base64String = reader.result as string;
-    //     console.log('Base64 String:', base64String);
-    //   };
-    // }
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setBase64String(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -265,7 +266,7 @@ export function ModalRAG({
       <DialogActions sx={{ padding: '24px 32px' }}>
         <Button onClick={onClose}>Cancelar</Button>
         <Button
-          disabled={true}
+          disabled={Boolean(!base64String)}
           onClick={() => {
             onClose();
           }}

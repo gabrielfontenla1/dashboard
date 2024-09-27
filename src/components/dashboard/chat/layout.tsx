@@ -98,7 +98,7 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
                   name: chatMessage.from,
                   avatar: '/assets/avatar-10.png',
                 };
-                const author = chatMessage.origin !== 'TWILIO' ? isReceived : isSended;
+                const author = chatMessage.origin === 'TWILIO' ? isReceived : isSended;
                 return {
                   id: chatMessage._id,
                   threadId: chatMessage.chatId,
