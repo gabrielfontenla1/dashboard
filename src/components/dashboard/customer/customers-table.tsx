@@ -43,12 +43,12 @@ const columns = [
     name: 'Name',
     width: '200px',
   },
-  { field: 'phoneId', name: 'Phone number', width: '150px' },
+  { field: 'phoneId', name: 'Phone Number', width: '150px' },
   {
     formatter(row) {
       return dayjs(row.createdAt).format('MMM D, YYYY h:mm A');
     },
-    name: 'Created at',
+    name: 'Created At',
     width: '100px',
   },
   {
