@@ -43,13 +43,6 @@ export const route: RouteObject = {
       },
     },
     {
-      path: 'service-rooms',
-      lazy: async () => {
-        const { Page } = await import('@/pages/dashboard/service-rooms');
-        return { Component: Page };
-      },
-    },
-    {
       path: 'chat',
       element: (
         <ChatLayout>

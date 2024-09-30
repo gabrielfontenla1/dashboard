@@ -29,7 +29,6 @@ export const paths = {
     },
     analytics: '/dashboard/analytics',
     calendar: '/dashboard/calendar',
-    serviceRooms: '/dashboard/service-rooms',
     chat: {
       base: '/dashboard/chat',
       compose: '/dashboard/chat/compose',
