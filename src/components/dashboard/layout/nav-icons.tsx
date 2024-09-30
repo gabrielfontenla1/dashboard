@@ -29,6 +29,7 @@ import { Truck as TruckIcon } from '@phosphor-icons/react/dist/ssr/Truck';
 import { Upload as UploadIcon } from '@phosphor-icons/react/dist/ssr/Upload';
 import { Users as UsersIcon } from '@phosphor-icons/react/dist/ssr/Users';
 import { WarningDiamond as WarningDiamondIcon } from '@phosphor-icons/react/dist/ssr/WarningDiamond';
+import { Bed as BedIcon } from '@phosphor-icons/react/dist/ssr/Bed';
 
 export const icons = {
   'address-book': AddressBookIcon,
@@ -61,4 +62,5 @@ export const icons = {
   truck: TruckIcon,
   upload: UploadIcon,
   users: UsersIcon,
+  bed: BedIcon,
 } as Record<string, Icon>;
