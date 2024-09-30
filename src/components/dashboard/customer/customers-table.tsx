@@ -14,6 +14,7 @@ import { customersClient, type CustomersDataResponse, type CustomersDataTable } 
 import { dayjs } from '@/lib/dayjs';
 import { DataTable } from '@/components/core/data-table';
 import type { ColumnDef } from '@/components/core/data-table';
+import { FileDropzone } from '@/components/core/file-dropzone';
 
 export interface Customer {
   id: string;
@@ -42,12 +43,12 @@ const columns = [
     name: 'Name',
     width: '200px',
   },
-  { field: 'phoneId', name: 'Phone number', width: '150px' },
+  { field: 'phoneId', name: 'Phone Number', width: '150px' },
   {
     formatter(row) {
       return dayjs(row.createdAt).format('MMM D, YYYY h:mm A');
     },
-    name: 'Created at',
+    name: 'Created At',
     width: '100px',
   },
   {
@@ -234,15 +235,38 @@ export function ModalRAG({
   onClose: () => void;
   customer: CustomersDataResponse;
 }): React.JSX.Element {
+  const [base64String, setBase64String] = React.useState<string>('');
+
+  const handleUpload = (files: File[]): void => {
+    const file = files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setBase64String(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle sx={{ fontSize: '1.5rem', fontWeight: 'bold', textAlign: 'center', paddingTop: '24px' }}>
         Upload RAG for {customer.name}
       </DialogTitle>
-      <DialogContent sx={{ padding: '32px' }}>Content</DialogContent>
+      <DialogContent sx={{ padding: '32px' }}>
+        <FileDropzone
+          accept={{ 'application/pdf': [] }}
+          caption="Only PDF is allowed"
+          multiple={false}
+          onDrop={(files) => {
+            handleUpload(files);
+          }}
+        />
+      </DialogContent>
       <DialogActions sx={{ padding: '24px 32px' }}>
         <Button onClick={onClose}>Cancelar</Button>
         <Button
+          disabled={Boolean(!base64String)}
           onClick={() => {
             onClose();
           }}

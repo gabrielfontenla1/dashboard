@@ -28,7 +28,7 @@ export interface ChatDetailDataResponse {
   dateAdded: string;
   chatId: string;
   type: 'MESSAGE' | 'PAUSE' | 'RESUME';
-  origin: 'FRONTEND' | 'TWILIO';
+  origin: 'FRONTEND' | 'TWILIO' | 'IA';
 }
 
 export interface ChatDetailResponse {
