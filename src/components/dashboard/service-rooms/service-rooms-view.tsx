@@ -1,17 +1,20 @@
-import React, { useState, useCallback, useMemo } from 'react';
-import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
+'use client';
+
+import React, { useCallback, useMemo, useState } from 'react';
+import { fetchRequest, HttpMethod } from "@/utils/fetch";
+import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import CircularProgress from "@mui/material/CircularProgress";
 import { DatePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { Bed as BedIcon } from '@phosphor-icons/react/dist/ssr/Bed';
-import { RoomAvailability, RoomAvailabilityByDate } from './types';
-import { fetchRequest, HttpMethod } from "@/utils/fetch";
 import { config } from "@/config";
-import CircularProgress from "@mui/material/CircularProgress";
+import type { BookingResponse, RoomAvailability, RoomAvailabilityByDate } from './types';
+
 
 const tableCellStyles = { position: 'sticky', top: 0, backgroundColor: '#fff', zIndex: 1 };
 
-const ServiceRoomsView: React.FC = () => {
+function ServiceRoomsView(): React.JSX.Element {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [bookings, setBookings] = useState<RoomAvailabilityByDate[]>([]);
@@ -22,7 +25,7 @@ const ServiceRoomsView: React.FC = () => {
 
     setLoading(true);
     const queryParams = `start=${startDate.toISOString().split('T')[0]}&end=${endDate.toISOString().split('T')[0]}`;
-    const { data } = await fetchRequest<RoomAvailabilityByDate[]>(`${config.api.url}/booking?${queryParams}`, HttpMethod.GET);
+    const { data } = await fetchRequest<BookingResponse>(`${config.api.url}/booking?${queryParams}`, HttpMethod.GET);
     setBookings(data);
     setLoading(false);
   }, [startDate, endDate]);
@@ -63,10 +66,10 @@ const ServiceRoomsView: React.FC = () => {
         </TableHead>
         <TableBody>
           {bookings.map((booking, rowIndex) => (
-            <TableRow key={rowIndex}>
+            <TableRow key={booking.date}>
               <TableCell>{booking.date}</TableCell>
               {booking.rooms.map((room, roomIndex) => (
-                <TableCell key={roomIndex}>
+                <TableCell key={room.roomId.concat(roomIndex.toString())}>
                   <Button
                     variant="contained"
                     color="inherit"
@@ -98,13 +101,13 @@ const ServiceRoomsView: React.FC = () => {
             label="Start date"
             value={startDate}
             onChange={setStartDate}
-            renderInput={(params) => <TextField {...params} />}
+            slotProps={{ textField: { fullWidth: false } }}
           />
           <DatePicker
             label="End date"
             value={endDate}
             onChange={setEndDate}
-            renderInput={(params) => <TextField {...params} />}
+            slotProps={{ textField: { fullWidth: false } }}
           />
           <Button
             variant="contained"
@@ -124,7 +127,7 @@ const ServiceRoomsView: React.FC = () => {
           </Button>
         </Box>
       </LocalizationProvider>
-      {loading && <CircularProgress color="primary" />}
+      {loading ? <CircularProgress color="primary" /> : null}
       {bookings.length > 0 && tableContent}
     </Box>
   );
