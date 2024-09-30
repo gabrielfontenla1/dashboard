@@ -32,6 +32,7 @@ export const layoutConfig = {
           matcher: { type: 'startsWith', href: '/dashboard/chat' },
         },
         { key: 'calendar', title: 'Calendar', href: paths.dashboard.calendar, icon: 'calendar-check' },
+        { key: 'service-rooms', title: 'Bookings', href: paths.dashboard.serviceRooms, icon: 'bed' },
         {
           key: 'customers',
           title: 'Customers',
