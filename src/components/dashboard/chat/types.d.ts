@@ -13,6 +13,7 @@ export interface Thread {
   type: ThreadType;
   participants: Participant[];
   unreadCount: number;
+  lastDate: string;
 }
 
 export interface Participant {

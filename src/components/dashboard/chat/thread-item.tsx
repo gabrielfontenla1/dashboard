@@ -35,6 +35,10 @@ export function ThreadItem({ active = false, thread, messages, onSelect }: Threa
   const recipients = (thread.participants ?? []).filter((participant) => participant.id !== user.id);
 
   const lastMessage = messages[messages.length - 1];
+  const timeFromNow =
+    lastMessage && !isNaN(new Date(lastMessage.createdAt).getTime())
+      ? dayjs(new Date(lastMessage.createdAt)).fromNow()
+      : 'Fecha no válida';
 
   return (
     <Box component="li" sx={{ userSelect: 'none' }}>
@@ -71,8 +75,8 @@ export function ThreadItem({ active = false, thread, messages, onSelect }: Threa
               },
             }}
           >
-            {recipients.map((recipient) => (
-              <Avatar key={recipient.id} src={recipient.avatar} />
+            {recipients.map((recipient, i) => (
+              <Avatar key={i} src={recipient.avatar} />
             ))}
           </AvatarGroup>
         </div>
@@ -101,7 +105,7 @@ export function ThreadItem({ active = false, thread, messages, onSelect }: Threa
         </Box>
         {lastMessage ? (
           <Typography color="text.secondary" sx={{ whiteSpace: 'nowrap' }} variant="caption">
-            {dayjs(lastMessage.createdAt).fromNow()}
+            {timeFromNow}
           </Typography>
         ) : null}
       </Box>
