@@ -19,7 +19,7 @@ const controlledStatusCodes = [401];
 export const fetchRequest = async <T>(
   url: string,
   method: HttpMethod = HttpMethod.GET,
-  body: BodyType = null
+  body?: BodyType,
 ): Promise<T> => {
   const token = localStorage.getItem('accessToken');
   const options: RequestInit = {
@@ -37,7 +37,7 @@ export const fetchRequest = async <T>(
   try {
     const response: Response = await fetch(url, options);
 
-    // TO-DO: Improve this method to logout when the accessToken is expired
+    // TODO: Improve this method to logout when the accessToken is expired
     const responseJSON = (await response.json()) as T;
     if ((responseJSON as any)?.message === 'Unauthorized') {
       localStorage.removeItem('custom-auth-token');
