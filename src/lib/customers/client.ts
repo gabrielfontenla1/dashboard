@@ -51,7 +51,10 @@ export interface ChatDetailResponse {
 }
 
 export interface CustomersUpdatePromptResponse {
-  data: ChatDetailDataResponse;
+  success: boolean;
+}
+
+export interface CustomersUpdateRAGResponse {
   success: boolean;
 }
 
@@ -64,8 +67,11 @@ class CustomersClient {
     return { error: 'Clients error' };
   }
 
-  async updatePrompt(clientId: number, prompt: string): Promise<{ data?: ChatDetailDataResponse; error?: string }> {
-    const { data, success } = await fetchRequest<CustomersUpdatePromptResponse>(
+  async updatePrompt(
+    clientId: number,
+    prompt: string
+  ): Promise<{ success?: CustomersUpdatePromptResponse; error?: string }> {
+    const success = await fetchRequest<CustomersUpdatePromptResponse>(
       `${config.api.url}/client/prompt`,
       HttpMethod.POST,
       {
@@ -74,9 +80,23 @@ class CustomersClient {
       }
     );
     if (success) {
-      return { data };
+      return { success };
     }
     return { error: 'Client Prompt Error' };
+  }
+
+  async updateRAG(
+    clientId: number,
+    base64: string
+  ): Promise<{ success?: CustomersUpdatePromptResponse; error?: string }> {
+    const success = await fetchRequest<CustomersUpdatePromptResponse>(`${config.api.url}/client/rag`, HttpMethod.POST, {
+      clientId,
+      base64,
+    });
+    if (success) {
+      return { success };
+    }
+    return { error: 'Client RAG Error' };
   }
 }
 

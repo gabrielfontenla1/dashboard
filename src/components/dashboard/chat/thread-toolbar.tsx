@@ -65,8 +65,8 @@ export function ThreadToolbar({ thread }: ThreadToolbarProps): React.JSX.Element
               },
             }}
           >
-            {recipients.map((recipient) => (
-              <Avatar key={recipient.id} src={recipient.avatar} />
+            {recipients.map((recipient, i) => (
+              <Avatar key={i} src={recipient.avatar} />
             ))}
           </AvatarGroup>
           <Box sx={{ minWidth: 0 }}>

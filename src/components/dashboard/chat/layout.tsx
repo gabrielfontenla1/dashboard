@@ -48,7 +48,7 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
   }, [socket]);
 
   React.useEffect(() => {
-    const fetchChats = async () => {
+    const fetchChats = async (): Promise<void> => {
       try {
         const response = await chatClient.getChats();
         if (response.error) {
@@ -65,10 +65,14 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
   }, []);
 
   React.useEffect(() => {
-    const fetchChatDetails = async () => {
+    const fetchChatDetails = async (): Promise<void> => {
       if (chatsResponse) {
         try {
-          const _contacts = chatsResponse.map((chat) => ({
+          const chatFiltered = chatsResponse.sort(
+            (a, b) => new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime()
+          );
+
+          const _contacts = chatFiltered.map((chat) => ({
             id: chat.to,
             name: chat.ProfileName,
             avatar: '/assets/avatar-10.png',
@@ -77,7 +81,7 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
           }));
           setContacts(_contacts);
 
-          const _threads = chatsResponse.map((chatDetail) => ({
+          const _threads = chatFiltered.map((chatDetail) => ({
             id: chatDetail.chatId,
             type: 'direct',
             participants: [{ id: chatDetail.to, name: chatDetail.ProfileName, avatar: '/assets/avatar-10.png' }],
