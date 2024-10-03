@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { config } from '@/config';
 import { paths } from '@/paths';
 import { AuthStrategy } from '@/lib/auth/strategy';
+import { customersClient } from '@/lib/customers/client';
 import { logger } from '@/lib/default-logger';
 import { useUser } from '@/hooks/use-user';
 
@@ -20,6 +21,8 @@ export function AuthGuard({ children }: AuthGuardProps): React.JSX.Element | nul
   const [isChecking, setIsChecking] = React.useState<boolean>(true);
 
   const checkPermissions = async (): Promise<void> => {
+    // TO-DO: When the refresh token is developed fix this line and remove this
+    void customersClient.getCustomers();
     if (isLoading) {
       return;
     }
