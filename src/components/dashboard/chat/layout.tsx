@@ -31,7 +31,7 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
           name: message.from,
           avatar: '/assets/avatar-10.png',
         };
-        const author = message.to === '+573105252119' ? isReceived : isSended;
+        const author = message.origin === 'TWILIO' ? isReceived : isSended;
         return {
           id: message.from,
           threadId: message.chatId,

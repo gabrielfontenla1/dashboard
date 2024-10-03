@@ -34,11 +34,24 @@ export interface ThreadItemProps {
 export function ThreadItem({ active = false, thread, messages, onSelect }: ThreadItemProps): React.JSX.Element {
   const recipients = (thread.participants ?? []).filter((participant) => participant.id !== user.id);
 
-  const lastMessage = messages[messages.length - 1];
-  const timeFromNow =
-    lastMessage && !isNaN(new Date(lastMessage.createdAt).getTime())
-      ? dayjs(new Date(lastMessage.createdAt)).fromNow()
-      : 'Fecha no válida';
+  const getMostRecentMessageDate = (): Date => {
+    if (messages.length === 0) {
+      return new Date(0);
+    }
+
+    return messages.reduce((mostRecentDate, currentMessage) => {
+      const currentDate = new Date(currentMessage.createdAt);
+
+      return currentDate > mostRecentDate ? currentDate : mostRecentDate;
+    }, new Date(messages[0].createdAt));
+  };
+
+  const orderMessagesByDate = (): Message[] => {
+    return messages.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+  };
+
+  const lastMessage = orderMessagesByDate()[messages.length - 1];
+  const timeFromNow = dayjs(getMostRecentMessageDate()).fromNow();
 
   return (
     <Box component="li" sx={{ userSelect: 'none' }}>
