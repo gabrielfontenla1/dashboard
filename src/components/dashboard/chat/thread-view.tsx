@@ -81,7 +81,7 @@ export function ThreadView({ threadId }: ThreadViewProps): React.JSX.Element | n
     <Box sx={{ display: 'flex', flex: '1 1 auto', flexDirection: 'column', minHeight: 0 }}>
       <ThreadToolbar thread={thread} />
       <Stack ref={messagesRef} spacing={2} sx={{ flex: '1 1 auto', overflowY: 'auto', p: 3 }}>
-        {messages.map((message, i) => (
+        {[...messages].reverse().map((message, i) => (
           <MessageBox key={i} message={message} />
         ))}
       </Stack>

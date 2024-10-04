@@ -46,11 +46,7 @@ export function ThreadItem({ active = false, thread, messages, onSelect }: Threa
     }, new Date(messages[0].createdAt));
   };
 
-  const orderMessagesByDate = (): Message[] => {
-    return messages.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
-  };
-
-  const lastMessage = orderMessagesByDate()[messages.length - 1];
+  const lastMessage = messages[0];
   const timeFromNow = dayjs(getMostRecentMessageDate()).fromNow();
 
   return (

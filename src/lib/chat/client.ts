@@ -12,6 +12,7 @@ export interface ChatsDataResponse {
   ProfileName: string;
   dateAdded: string;
   lastMessage: string;
+  updatedAt: string;
 }
 
 export interface ChatsResponse {
