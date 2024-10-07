@@ -1,5 +1,6 @@
 'use client';
-import React, { useState, type JSX, useCallback } from 'react';
+
+import React, { useCallback, useState, type JSX } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
@@ -14,6 +15,7 @@ import { Eye as EyeIcon } from '@phosphor-icons/react/dist/ssr/Eye';
 import { EyeSlash as EyeSlashIcon } from '@phosphor-icons/react/dist/ssr/EyeSlash';
 import { Controller, useForm } from 'react-hook-form';
 import { z as zod } from 'zod';
+
 import { paths } from '@/paths';
 import { authClient } from '@/lib/auth/custom/client';
 import { useUser } from '@/hooks/use-user';
@@ -30,7 +32,7 @@ type Values = zod.infer<typeof schema>;
 const defaultValues = { email: '', password: '' } satisfies Values;
 //TODO replace for new brand onesearch
 export function SignInForm(): JSX.Element {
-  const { checkSession, user } = useUser();
+  const { checkSession } = useUser();
 
   const [showPassword, setShowPassword] = useState<boolean>();
 
@@ -47,7 +49,7 @@ export function SignInForm(): JSX.Element {
     async (values: Values): Promise<void> => {
       setIsPending(true);
 
-      const { data, error } = await authClient.signInWithPassword(values);
+      const { error } = await authClient.signInWithPassword(values);
 
       if (error) {
         setError('root', { type: 'server', message: error });

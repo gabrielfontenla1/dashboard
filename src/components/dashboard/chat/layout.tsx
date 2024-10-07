@@ -31,7 +31,7 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
           name: message.from,
           avatar: '/assets/avatar-10.png',
         };
-        const author = message.to === '+573105252119' ? isReceived : isSended;
+        const author = message.origin === 'TWILIO' ? isReceived : isSended;
         return {
           id: message.from,
           threadId: message.chatId,
@@ -68,20 +68,16 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
     const fetchChatDetails = async (): Promise<void> => {
       if (chatsResponse) {
         try {
-          const chatFiltered = chatsResponse.sort(
-            (a, b) => new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime()
-          );
-
-          const _contacts = chatFiltered.map((chat) => ({
+          const _contacts = chatsResponse.map((chat) => ({
             id: chat.to,
             name: chat.ProfileName,
             avatar: '/assets/avatar-10.png',
             isActive: true,
-            lastActivity: dayjs(chat.dateAdded).toDate(),
+            lastActivity: dayjs(chat.updatedAt).toDate(),
           }));
           setContacts(_contacts);
 
-          const _threads = chatFiltered.map((chatDetail) => ({
+          const _threads = chatsResponse.map((chatDetail) => ({
             id: chatDetail.chatId,
             type: 'direct',
             participants: [{ id: chatDetail.to, name: chatDetail.ProfileName, avatar: '/assets/avatar-10.png' }],

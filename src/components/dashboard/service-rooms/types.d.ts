@@ -1,10 +1,11 @@
 
-export type RoomAvailability = {
+export interface RoomAvailability {
   roomId: string;
   available: boolean;
 }
 
-export type RoomAvailabilityByDate = {
+export interface RoomAvailabilityByDate {
   date: string;
   rooms: RoomAvailability[];
 }
+export interface BookingResponse {success: boolean, data: RoomAvailabilityByDate[]}

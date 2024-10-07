@@ -157,6 +157,30 @@ function SidebarContent({
     [onSelectThread, onClose, closeOnThreadSelect]
   );
 
+  const orderThreadsByDate = (): Thread[] => {
+    return threads.sort((a, b) => {
+      const messageListA = messages.get(a.id);
+      const messageListB = messages.get(b.id);
+
+      const mostRecentDateA = messageListA
+        ? messageListA.reduce((mostRecent, message) => {
+            const messageDate = new Date(message.createdAt).getTime();
+            return messageDate > mostRecent ? messageDate : mostRecent;
+          }, 0)
+        : 0;
+
+      const mostRecentDateB = messageListB
+        ? messageListB.reduce((mostRecent, message) => {
+            const messageDate = new Date(message.createdAt).getTime();
+            return messageDate > mostRecent ? messageDate : mostRecent;
+          }, 0)
+        : 0;
+
+      return mostRecentDateB - mostRecentDateA;
+    });
+  };
+  const threadsOrdened = orderThreadsByDate();
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <Stack direction="row" spacing={2} sx={{ alignItems: 'center', flex: '0 0 auto', p: 2 }}>
@@ -182,7 +206,7 @@ function SidebarContent({
           spacing={1}
           sx={{ display: searchFocused ? 'none' : 'flex', listStyle: 'none', m: 0, p: 0 }}
         >
-          {threads.map((thread) => (
+          {threadsOrdened.map((thread) => (
             <ThreadItem
               active={currentThreadId === thread.id}
               key={thread.id}
