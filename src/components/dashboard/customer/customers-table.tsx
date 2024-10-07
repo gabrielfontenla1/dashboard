@@ -1,19 +1,17 @@
 'use client';
 
 import * as React from 'react';
-import { Button, Grid } from '@mui/material';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { PencilSimple } from '@phosphor-icons/react';
 
 import type { CustomersDataResponse, CustomersDataTable } from '@/types/customer';
 import { customersClient } from '@/lib/customers/client';
 import { dayjs } from '@/lib/dayjs';
 import { DataTable } from '@/components/core/data-table';
 import type { ColumnDef } from '@/components/core/data-table';
+import { ActionsColumn } from '@/components/dashboard/customer/actions-column';
 import { CustomerUpdateForm } from '@/components/dashboard/customer/customer-update-form';
+import { EmailColumn } from '@/components/dashboard/customer/email-column';
 import { ModalPrompt } from '@/components/dashboard/customer/modal-prompt';
 import { ModalRAG } from '@/components/dashboard/customer/modal-rag';
 
@@ -31,16 +29,7 @@ export function CustomersTable(): React.JSX.Element {
       [
         { field: 'id', name: 'ID', width: '20px' },
         {
-          formatter: (row): React.JSX.Element => (
-            <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-              <div>
-                {row.name}
-                <Typography color="text.secondary" variant="body2">
-                  {row.email}
-                </Typography>
-              </div>
-            </Stack>
-          ),
+          formatter: EmailColumn,
           name: 'Name',
           width: '200px',
         },
@@ -53,37 +42,7 @@ export function CustomersTable(): React.JSX.Element {
           width: '100px',
         },
         {
-          formatter: (row): React.JSX.Element => (
-            <Grid container spacing={1}>
-              <Grid item>
-                <Button size="small" variant="contained" onClick={() => row.onUploadPrompt && row.onUploadPrompt()}>
-                  Upload Prompt
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button size="small" variant="contained" onClick={() => row.onUploadRAG && row.onUploadRAG()}>
-                  Upload RAG
-                </Button>
-              </Grid>
-              <Grid item>
-                <IconButton
-                  style={{
-                    backgroundColor: 'var(--mui-palette-info-main)',
-                    color: 'white',
-                    width: 60,
-                    height: 35,
-                    borderRadius: '10px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                  onClick={() => row.onEdit && row.onEdit()}
-                >
-                  <PencilSimple fontSize="var(--icon-fontSize-md)" />
-                </IconButton>
-              </Grid>
-            </Grid>
-          ),
+          formatter: ActionsColumn,
           name: 'Actions',
           hideName: true,
           width: '250px',
