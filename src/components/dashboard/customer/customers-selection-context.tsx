@@ -2,10 +2,9 @@
 
 import * as React from 'react';
 
+import type { Customer } from '@/types/customer';
 import { useSelection } from '@/hooks/use-selection';
 import type { Selection } from '@/hooks/use-selection';
-
-import type { Customer } from './customers-table';
 
 function noop(): void {
   return undefined;

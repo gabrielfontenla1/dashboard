@@ -2,6 +2,7 @@
 
 import { fetchRequest, HttpMethod } from '@/utils/fetch';
 
+import type { ChatDetailDataResponse, ChatDetailResponse, ChatsDataResponse, ChatsResponse } from '@/types/chat';
 import { config } from '@/config';
 
 export interface ChatsDataResponse {

@@ -17,7 +17,7 @@ export function SplitLayout({ children }: SplitLayoutProps): React.JSX.Element {
           flexDirection: 'column',
           p: 3,
         }}
-       />
+      />
       <Box sx={{ boxShadow: 'var(--mui-shadows-8)', display: 'flex', flexDirection: 'column' }}>
         <Box
           sx={{

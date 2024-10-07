@@ -1,6 +1,5 @@
 export type UserType = 'super-admin' | 'admin' | 'client';
 
-
 export interface User {
   id: string;
   name?: string;
