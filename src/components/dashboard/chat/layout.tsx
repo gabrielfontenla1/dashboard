@@ -77,12 +77,14 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
           }));
           setContacts(_contacts);
 
-          const _threads = chatsResponse.map((chatDetail) => ({
-            id: chatDetail.chatId,
-            type: 'direct',
-            participants: [{ id: chatDetail.to, name: chatDetail.ProfileName, avatar: '/assets/avatar-10.png' }],
-            unreadCount: 0,
-          })) as Thread[];
+          const _threads = chatsResponse
+            .filter((chatDetail) => chatDetail.lastMessage && chatDetail.chatId)
+            .map((chatDetail) => ({
+              id: chatDetail.chatId,
+              type: 'direct',
+              participants: [{ id: chatDetail.to, name: chatDetail.ProfileName, avatar: '/assets/avatar-10.png' }],
+              unreadCount: 0,
+            })) as Thread[];
 
           setThreads(_threads);
 

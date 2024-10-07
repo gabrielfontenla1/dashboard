@@ -66,9 +66,11 @@ export function MessageBox({ message }: MessageBoxProps): React.JSX.Element {
                 />
               ) : null}
               {message.type === 'text' ? (
-                <Typography color="inherit" variant="body1">
-                  {message.content}
-                </Typography>
+                <Typography
+                  color="inherit"
+                  variant="body1"
+                  dangerouslySetInnerHTML={{ __html: message.content.replace(/\n/g, '<br />') }}
+                />
               ) : null}
             </Stack>
           </Card>
