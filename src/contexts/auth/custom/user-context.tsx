@@ -1,10 +1,9 @@
 'use client';
 
-import React, { createContext, useCallback, useEffect, useState, type ReactNode } from 'react';
+import React, {createContext, useState, type ReactNode, type JSX, useCallback, useEffect} from 'react';
 
 import type { User } from '@/types/user';
 import { authClient } from '@/lib/auth/custom/client';
-import { customersClient } from '@/lib/customers/client';
 import { logger } from '@/lib/default-logger';
 
 import type { UserContextValue } from '../types';
@@ -22,7 +21,7 @@ export function UserProvider({ children }: UserProviderProps): JSX.Element {
     isLoading: true,
   });
 
-  const checkSession = React.useCallback(async (): Promise<void> => {
+  const checkSession = useCallback(async (): Promise<void> => {
     try {
       const { data, error } = await authClient.getUser();
       // TO-DO: This force to relogin if token is expired, then fix with a better solution
@@ -40,7 +39,7 @@ export function UserProvider({ children }: UserProviderProps): JSX.Element {
     }
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     checkSession().catch((err: unknown) => {
       logger.error(err);
       // noop
