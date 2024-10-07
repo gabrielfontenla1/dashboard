@@ -19,7 +19,7 @@ const controlledStatusCodes = [401];
 export const fetchRequest = async <T>(
   url: string,
   method: HttpMethod = HttpMethod.GET,
-  body?: BodyType,
+  body?: BodyType
 ): Promise<T> => {
   const token = localStorage.getItem('accessToken');
   const options: RequestInit = {
