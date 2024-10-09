@@ -27,6 +27,7 @@ export interface ChatDetailDataResponse {
   message: string;
   pauseByUser: boolean;
   dateAdded: string;
+  updatedAt: string;
   chatId: string;
   type: 'MESSAGE' | 'PAUSE' | 'RESUME';
   origin: 'FRONTEND' | 'TWILIO' | 'IA';

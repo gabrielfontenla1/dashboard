@@ -68,13 +68,15 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
     const fetchChatDetails = async (): Promise<void> => {
       if (chatsResponse) {
         try {
-          const _contacts = chatsResponse.map((chat) => ({
-            id: chat.to,
-            name: chat.ProfileName,
-            avatar: '/assets/avatar-10.png',
-            isActive: true,
-            lastActivity: dayjs(chat.updatedAt).toDate(),
-          }));
+          const _contacts = chatsResponse.map((chat) => {
+            return {
+              id: chat.to,
+              name: chat.ProfileName,
+              avatar: '/assets/avatar-10.png',
+              isActive: true,
+              lastActivity: dayjs(chat.updatedAt).toDate(),
+            };
+          });
           setContacts(_contacts);
 
           const _threads = chatsResponse
@@ -107,7 +109,7 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
                   type: 'text',
                   content: chatMessage.message,
                   author,
-                  createdAt: dayjs(chatMessage.dateAdded).toDate(),
+                  createdAt: dayjs(chatMessage.dateAdded || chatMessage.updatedAt).toDate(),
                 };
               })
             )
