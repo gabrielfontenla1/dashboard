@@ -2,62 +2,17 @@
 
 import { fetchRequest, HttpMethod } from '@/utils/fetch';
 
+import type {
+  CustomerDto,
+  CustomersDataResponse,
+  CustomersResponse,
+  CustomersUpdatePromptResponse,
+} from '@/types/customer';
 import { config } from '@/config';
 
-export interface CustomersDataResponse {
-  email: string;
-  id: number;
-  name: string;
-  phoneId: string;
-  prompt: string;
-  ragRoute: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface CustomersDataTable {
-  email: string;
-  id: number;
-  name: string;
-  phoneId: string;
-  prompt: string;
-  ragRoute: string;
-  createdAt: string;
-  updatedAt: string;
-  onUploadPrompt?: () => void;
-  onUploadRAG?: () => void;
-}
-
-export interface CustomersResponse {
-  data: CustomersDataResponse[];
-  success: boolean;
-}
-
-export interface ChatDetailDataResponse {
-  _id: string;
-  from: string;
-  to: string;
-  message: string;
-  pauseByUser: boolean;
-  dateAdded: string;
-  chatId: string;
-  type: 'MESSAGE' | 'PAUSE' | 'RESUME';
-  origin: 'FRONTEND' | 'TWILIO';
-}
-
-export interface ChatDetailResponse {
-  data: ChatDetailDataResponse[];
-  success: boolean;
-}
-
-export interface CustomersUpdatePromptResponse {
-  success: boolean;
-}
-
-export interface CustomersUpdateRAGResponse {
-  success: boolean;
-}
-
+/**
+ * CustomersClient to call the API for customer actions
+ */
 class CustomersClient {
   async getCustomers(): Promise<{ data?: CustomersDataResponse[]; error?: string }> {
     const { data, success } = await fetchRequest<CustomersResponse>(`${config.api.url}/client`, HttpMethod.GET);
@@ -65,6 +20,30 @@ class CustomersClient {
       return { data };
     }
     return { error: 'Clients error' };
+  }
+
+  async updateCustomer(customer: CustomerDto): Promise<{ data?: CustomersDataResponse[]; error?: string }> {
+    const { data, success } = await fetchRequest<CustomersResponse>(
+      `${config.api.url}/client/update`,
+      HttpMethod.PUT,
+      customer
+    );
+    if (success) {
+      return { data };
+    }
+    throw new Error('Error updating customer');
+  }
+
+  async createCustomer(customer: CustomerDto): Promise<{ data?: any; error?: string }> {
+    const { data, success } = await fetchRequest<CustomersResponse>(
+      `${config.api.url}/client/save`,
+      HttpMethod.POST,
+      customer
+    );
+    if (success) {
+      return { data };
+    }
+    throw new Error('Error saving customer');
   }
 
   async updatePrompt(
