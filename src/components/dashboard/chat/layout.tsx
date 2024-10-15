@@ -68,21 +68,25 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
     const fetchChatDetails = async (): Promise<void> => {
       if (chatsResponse) {
         try {
-          const _contacts = chatsResponse.map((chat) => ({
-            id: chat.to,
-            name: chat.ProfileName,
-            avatar: '/assets/avatar-10.png',
-            isActive: true,
-            lastActivity: dayjs(chat.updatedAt).toDate(),
-          }));
+          const _contacts = chatsResponse.map((chat) => {
+            return {
+              id: chat.to,
+              name: chat.ProfileName,
+              avatar: '/assets/avatar-10.png',
+              isActive: true,
+              lastActivity: dayjs(chat.updatedAt).toDate(),
+            };
+          });
           setContacts(_contacts);
 
-          const _threads = chatsResponse.map((chatDetail) => ({
-            id: chatDetail.chatId,
-            type: 'direct',
-            participants: [{ id: chatDetail.to, name: chatDetail.ProfileName, avatar: '/assets/avatar-10.png' }],
-            unreadCount: 0,
-          })) as Thread[];
+          const _threads = chatsResponse
+            .filter((chatDetail) => chatDetail.lastMessage && chatDetail.chatId)
+            .map((chatDetail) => ({
+              id: chatDetail.chatId,
+              type: 'direct',
+              participants: [{ id: chatDetail.to, name: chatDetail.ProfileName, avatar: '/assets/avatar-10.png' }],
+              unreadCount: 0,
+            })) as Thread[];
 
           setThreads(_threads);
 
@@ -105,7 +109,7 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
                   type: 'text',
                   content: chatMessage.message,
                   author,
-                  createdAt: dayjs(chatMessage.dateAdded).toDate(),
+                  createdAt: dayjs(chatMessage.dateAdded || chatMessage.updatedAt).toDate(),
                 };
               })
             )

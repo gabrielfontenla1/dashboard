@@ -36,10 +36,8 @@ export const fetchRequest = async <T>(
 
   try {
     const response: Response = await fetch(url, options);
-
-    // TODO: Improve this method to logout when the accessToken is expired
-    const responseJSON = (await response.json()) as T;
-    if ((responseJSON as any)?.message === 'Unauthorized') {
+    const responseJSON = await response.json() as { message: string; data: T };
+    if (responseJSON.message === 'Unauthorized') {
       localStorage.removeItem('custom-auth-token');
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
@@ -49,7 +47,7 @@ export const fetchRequest = async <T>(
     if (!response.ok && !controlledStatusCodes.includes(401)) {
       throw new Error(`Error ${response.status}: ${response.statusText}`);
     }
-    return responseJSON;
+    return responseJSON.data;
   } catch (error) {
     console.error('Fetch error:', error);
     throw error;

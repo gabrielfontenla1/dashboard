@@ -34,6 +34,8 @@ export interface ThreadItemProps {
 export function ThreadItem({ active = false, thread, messages, onSelect }: ThreadItemProps): React.JSX.Element {
   const recipients = (thread.participants ?? []).filter((participant) => participant.id !== user.id);
 
+  // console.log(thread.id, messages);
+
   const getMostRecentMessageDate = (): Date => {
     if (messages.length === 0) {
       return new Date(0);

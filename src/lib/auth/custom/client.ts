@@ -2,6 +2,14 @@
 
 import { fetchRequest, HttpMethod } from '@/utils/fetch';
 
+import type {
+  ResetPasswordParams,
+  SignInResponse,
+  SignInWithOAuthParams,
+  SignInWithPasswordParams,
+  SignUpParams,
+  ValidToken,
+} from '@/types/auth';
 import type { User } from '@/types/user';
 import { config } from '@/config';
 
@@ -10,7 +18,7 @@ function generateToken(): string {
   window.crypto.getRandomValues(arr);
   return Array.from(arr, (v) => v.toString(16).padStart(2, '0')).join('');
 }
-
+//TODO change this data for real data from the context
 const user = {
   id: 'USR-000',
   avatar: '/assets/avatar.png',
@@ -20,37 +28,8 @@ const user = {
   typeOfUser: 'super-admin',
 } satisfies User;
 
-export interface SignUpParams {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-}
-
-export interface SignInWithOAuthParams {
-  provider: 'google' | 'discord';
-}
-
-export interface SignInWithPasswordParams {
-  email: string;
-  password: string;
-}
-
-export interface ResetPasswordParams {
-  email: string;
-}
-
-export interface SignInResponse {
-  success: boolean;
-  message: string;
-  accessToken: string;
-  refreshToken: string;
-}
-
 class AuthClient {
   async signUp(_: SignUpParams): Promise<{ error?: string }> {
-    // Make API request
-
     // We do not handle the API, so we'll just generate a token and store it in localStorage.
     const token = generateToken();
     localStorage.setItem('custom-auth-token', token);
@@ -69,7 +48,7 @@ class AuthClient {
       password,
     });
 
-    if (!data.accessToken && !data.refreshToken) {
+    if (!data?.accessToken || !data.refreshToken) {
       return { error: 'Invalid credentials' };
     }
 
@@ -77,7 +56,17 @@ class AuthClient {
     localStorage.setItem('custom-auth-token', token);
     localStorage.setItem('accessToken', data.accessToken);
     localStorage.setItem('refreshToken', data.refreshToken);
+    localStorage.setItem('email', email);
+    localStorage.setItem('password', password);
+    return { data };
+  }
 
+  async validateToken(token: string | null): Promise<{ data: ValidToken }> {
+    let data: ValidToken = { tokenInfo: {} };
+    if (token === null) {
+      return { data };
+    }
+    data = await fetchRequest<ValidToken>(`${config.api.url}/auth/validate`, HttpMethod.POST, { token });
     return { data };
   }
 
@@ -90,8 +79,6 @@ class AuthClient {
   }
 
   async getUser(): Promise<{ data?: User | null; error?: string }> {
-    // Make API request to get user info
-
     // We do not handle the API, so just check if we have a token in localStorage.
     const token = localStorage.getItem('custom-auth-token');
 
