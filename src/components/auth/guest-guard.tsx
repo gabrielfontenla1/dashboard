@@ -27,6 +27,7 @@ export function GuestGuard({ children }: GuestGuardProps): React.JSX.Element | n
       return;
     }
 
+    // TODO we have to get the user from the context
     if (user) {
       logger.debug('[GuestGuard]: User is logged in, redirecting to dashboard');
       navigate(paths.dashboard.overview, { replace: true });
