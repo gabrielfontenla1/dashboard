@@ -16,8 +16,8 @@ export const layoutConfig = {
       key: 'metrics',
       title: 'Metrics',
       items: [
-        { key: 'overview', title: 'Overview', href: paths.dashboard.overview, icon: 'house' },
-        { key: 'analytics', title: 'Analytics', href: paths.dashboard.analytics, icon: 'chart-pie' },
+        { key: 'overview', title: 'Home', href: paths.dashboard.overview, icon: 'house' },
+        // { key: 'analytics', title: 'Analytics', href: paths.dashboard.analytics, icon: 'chart-pie' },
       ],
     },
     {
@@ -31,8 +31,8 @@ export const layoutConfig = {
           icon: 'chats-circle',
           matcher: { type: 'startsWith', href: '/dashboard/chat' },
         },
-        { key: 'calendar', title: 'Calendar', href: paths.dashboard.calendar, icon: 'calendar-check' },
-        { key: 'service-rooms', title: 'Bookings', href: paths.dashboard.serviceRooms, icon: 'bed' },
+        // { key: 'calendar', title: 'Calendar', href: paths.dashboard.calendar, icon: 'calendar-check' },
+        // { key: 'service-rooms', title: 'Bookings', href: paths.dashboard.serviceRooms, icon: 'bed' },
         {
           key: 'customers',
           title: 'Customers',

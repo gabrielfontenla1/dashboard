@@ -35,7 +35,7 @@ export interface Config {
 
 export const config = {
   site: {
-    name: 'Devias Kit Pro',
+    name: 'One Search AI',
     description: '',
     language: 'en',
     colorScheme: 'light',
