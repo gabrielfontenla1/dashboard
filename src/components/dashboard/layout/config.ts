@@ -33,26 +33,26 @@ export const layoutConfig = {
         },
         // { key: 'calendar', title: 'Calendar', href: paths.dashboard.calendar, icon: 'calendar-check' },
         // { key: 'service-rooms', title: 'Bookings', href: paths.dashboard.serviceRooms, icon: 'bed' },
-        {
-          key: 'customers',
-          title: 'Customers',
-          href: paths.dashboard.customers.list,
-          icon: 'users',
-        },
+        // {
+        //   key: 'customers',
+        //   title: 'Customers',
+        //   href: paths.dashboard.customers.list,
+        //   icon: 'users',
+        // },
       ],
     },
-    {
-      key: 'settings',
-      title: 'Settings',
-      items: [
-        {
-          key: 'settings',
-          title: 'Settings',
-          href: paths.dashboard.settings.account,
-          icon: 'gear',
-          matcher: { type: 'startsWith', href: '/dashboard/settings' },
-        },
-      ],
-    },
+    // {
+    //   key: 'settings',
+    //   title: 'Settings',
+    //   items: [
+    //     {
+    //       key: 'settings',
+    //       title: 'Settings',
+    //       href: paths.dashboard.settings.account,
+    //       icon: 'gear',
+    //       matcher: { type: 'startsWith', href: '/dashboard/settings' },
+    //     },
+    //   ],
+    // },
   ],
 } satisfies LayoutConfig;

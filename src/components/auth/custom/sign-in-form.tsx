@@ -66,8 +66,8 @@ export function SignInForm(): JSX.Element {
   return (
     <Stack spacing={4}>
       <div>
-        <Box component={RouterLink} href={paths.home} sx={{ display: 'inline-block', fontSize: 0 }}>
-          <DynamicLogo colorDark="light" colorLight="dark" height={32} width={122} />
+        <Box component={RouterLink} href={paths.home} sx={{ display: 'inline-block', fontSize: 0, textDecoration: "none" }}>
+          <DynamicLogo colorDark="light" colorLight="dark" height={32} width={244} />
         </Box>
       </div>
       <Stack spacing={1}>
