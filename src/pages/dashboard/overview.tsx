@@ -44,7 +44,7 @@ export function Page(): React.JSX.Element {
         <Stack spacing={4}>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} sx={{ alignItems: 'flex-start' }}>
             <Box sx={{ flex: '1 1 auto' }}>
-              <Typography variant="h4">Overview</Typography>
+              <Typography variant="h4">Home</Typography>
             </Box>
             <div>
               <Button startIcon={<PlusIcon />} variant="contained">
@@ -54,15 +54,16 @@ export function Page(): React.JSX.Element {
           </Stack>
           <Grid container spacing={4}>
             <Grid md={4} xs={12}>
-              <Summary amount={31} diff={15} icon={ListChecksIcon} title="Tickets" trend="up" />
+              <Summary amount={31} diff={15} icon={ListChecksIcon} title="Conversaciones" trend="up" />
             </Grid>
             <Grid md={4} xs={12}>
-              <Summary amount={240} diff={5} icon={UsersIcon} title="Sign ups" trend="down" />
+              <Summary amount={240} diff={5} icon={UsersIcon} title="Ventas" trend="down" />
             </Grid>
-            <Grid md={4} xs={12}>
+            {/* <Grid md={4} xs={12}>
               <Summary amount={21} diff={12} icon={WarningIcon} title="Open issues" trend="up" />
-            </Grid>
-            <Grid md={8} xs={12}>
+            </Grid> */}
+
+            {/* <Grid md={8} xs={12}>
               <AppUsage
                 data={[
                   { name: 'Jan', v1: 36, v2: 19 },
@@ -233,7 +234,7 @@ export function Page(): React.JSX.Element {
                 label="Documentation"
                 title="Explore documentation"
               />
-            </Grid>
+            </Grid> */}
           </Grid>
         </Stack>
       </Box>
